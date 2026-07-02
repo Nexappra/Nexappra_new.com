@@ -1,0 +1,131 @@
+import React from 'react';
+import './Footer.css';
+
+const servicesLinks = [
+  'Web Development',
+  'Mobile Apps',
+  'AI Solutions',
+  'UI/UX Design',
+  'SaaS Development',
+];
+
+const companyLinks = [
+  'About Us',
+  'Our Process',
+  'Case Studies',
+  'Careers',
+  'Blog',
+];
+
+export default function Footer() {
+  return (
+    <footer className="footer" id="footer">
+      {/* Gradient top border */}
+      <div className="footer__border" aria-hidden="true" />
+
+      <div className="container">
+        <div className="footer__grid">
+          {/* ---------- Column 1 — Brand ---------- */}
+          <div className="footer__brand">
+            <a href="#" className="footer__logo" id="footer-logo">
+              <span className="footer__logo-nex">Nex</span>
+              <span className="footer__logo-appra">Appra</span>
+            </a>
+            <p className="footer__tagline">Build. Innovate. Scale.</p>
+            <p className="footer__desc">
+              We craft premium digital products that drive growth and innovation.
+            </p>
+
+            <nav className="footer__socials" aria-label="Social media">
+              {/* LinkedIn */}
+              <a href="#" className="footer__social" id="footer-social-linkedin" aria-label="LinkedIn">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <rect x="1" y="1" width="16" height="16" rx="3" stroke="currentColor" strokeWidth="1.4" />
+                  <text x="9" y="13" textAnchor="middle" fill="currentColor" fontSize="9" fontWeight="700">in</text>
+                </svg>
+              </a>
+              {/* GitHub */}
+              <a href="#" className="footer__social" id="footer-social-github" aria-label="GitHub">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <circle cx="9" cy="9" r="8" stroke="currentColor" strokeWidth="1.4" />
+                  <text x="9" y="13" textAnchor="middle" fill="currentColor" fontSize="10" fontWeight="700">G</text>
+                </svg>
+              </a>
+              {/* Instagram */}
+              <a href="#" className="footer__social" id="footer-social-instagram" aria-label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <rect x="1.5" y="1.5" width="15" height="15" rx="4.5" stroke="currentColor" strokeWidth="1.4" />
+                  <circle cx="9" cy="9" r="3.5" stroke="currentColor" strokeWidth="1.4" />
+                  <circle cx="13.5" cy="4.5" r="0.9" fill="currentColor" />
+                </svg>
+              </a>
+              {/* Twitter / X */}
+              <a href="#" className="footer__social" id="footer-social-x" aria-label="X / Twitter">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <circle cx="9" cy="9" r="8" stroke="currentColor" strokeWidth="1.4" />
+                  <text x="9" y="13" textAnchor="middle" fill="currentColor" fontSize="10" fontWeight="700">X</text>
+                </svg>
+              </a>
+            </nav>
+          </div>
+
+          {/* ---------- Column 2 — Services ---------- */}
+          <nav className="footer__col" aria-label="Services">
+            <h4 className="footer__heading">Services</h4>
+            <ul className="footer__links">
+              {servicesLinks.map((link) => (
+                <li key={link}>
+                  <a href="#" className="footer__link">{link}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* ---------- Column 3 — Company ---------- */}
+          <nav className="footer__col" aria-label="Company">
+            <h4 className="footer__heading">Company</h4>
+            <ul className="footer__links">
+              {companyLinks.map((link) => (
+                <li key={link}>
+                  <a href="#" className="footer__link">{link}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* ---------- Column 4 — Contact ---------- */}
+          <div className="footer__col">
+            <h4 className="footer__heading">Contact</h4>
+            <ul className="footer__links">
+              <li>
+                <a href="mailto:info@nexappra.com" className="footer__link" id="footer-email">
+                  info@nexappra.com
+                </a>
+              </li>
+              <li>
+                <a href="https://nexappra.com" className="footer__link" id="footer-website">
+                  nexappra.com
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="footer__link footer__link--cta" id="footer-get-started">
+                  Get Started
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* ---------- Bottom bar ---------- */}
+        <div className="footer__bottom">
+          <p className="footer__copy">
+            &copy; 2025 NexAppra. All rights reserved.
+          </p>
+          <p className="footer__credit">
+            Designed &amp; Developed by NexAppra
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}

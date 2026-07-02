@@ -1,0 +1,100 @@
+/* ============================================================
+   TRUST BAR — Logos + animated stat counters
+   ============================================================ */
+
+.trust-bar {
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* ---------- Logos ---------- */
+.trust-bar__logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-10);
+  flex-wrap: wrap;
+  padding: var(--space-8) 0;
+}
+
+.trust-bar__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+  filter: grayscale(100%);
+  transition: opacity var(--transition-base),
+              filter var(--transition-base);
+  cursor: default;
+}
+
+.trust-bar__logo:hover {
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
+.trust-bar__logo svg {
+  height: 28px;
+  width: auto;
+}
+
+/* ---------- Stats ---------- */
+.trust-bar__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  padding: var(--space-8) 0 var(--space-12);
+}
+
+.trust-bar__stat {
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+}
+
+.trust-bar__stat:hover {
+  transform: translateY(-4px);
+}
+
+.trust-bar__stat-number {
+  font-size: var(--text-5xl);
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.trust-bar__stat-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .trust-bar__logos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    justify-items: center;
+  }
+
+  .trust-bar__stats {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .trust-bar__stat-number {
+    font-size: var(--text-4xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .trust-bar__logos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trust-bar__stat-number {
+    font-size: var(--text-3xl);
+  }
+}
