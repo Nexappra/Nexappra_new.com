@@ -30,6 +30,9 @@ export default function Hero() {
 
   return (
     <section className="hero container" id="home" ref={sectionRef}>
+      {/* Background Overlay */}
+      <div className="hero__overlay" aria-hidden="true" />
+      
       {/* Text content */}
       <div className="hero__content">
         <span className="hero__label" id="hero-label">

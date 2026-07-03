@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
 const NAV_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'Services', href: '#services' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Process', href: '#process' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Services', href: '/services' },
+  { label: 'Careers', href: '/careers' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState('#home');
+  const location = useLocation();
 
   /* ---- Scroll listener ---- */
   useEffect(() => {
@@ -30,16 +31,11 @@ export default function Navbar() {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  const handleLinkClick = (href) => {
-    setActiveLink(href);
-    setMenuOpen(false);
-  };
-
   return (
     <nav className={`navbar${scrolled ? ' scrolled' : ''}`} id="navbar">
       <div className="container navbar__inner">
         {/* Logo */}
-        <a href="#home" className="navbar__logo" id="nav-logo" onClick={() => setActiveLink('#home')}>
+        <Link to="/" className="navbar__logo" id="nav-logo" onClick={() => setMenuOpen(false)}>
           <span className="navbar__logo-icon" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="16 18 22 12 16 6" />
@@ -50,28 +46,28 @@ export default function Navbar() {
             <span className="navbar__logo-nex">Nex</span>
             <span className="navbar__logo-appra">Appra</span>
           </span>
-        </a>
+        </Link>
 
         {/* Desktop links */}
         <ul className="navbar__links">
           {NAV_LINKS.map(({ label, href }) => (
             <li key={href}>
-              <a
-                href={href}
+              <Link
+                to={href}
                 id={`nav-link-${label.toLowerCase()}`}
-                className={`navbar__link${activeLink === href ? ' active' : ''}`}
-                onClick={() => handleLinkClick(href)}
+                className={`navbar__link${location.pathname === href ? ' active' : ''}`}
+                onClick={() => setMenuOpen(false)}
               >
                 {label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         {/* Desktop CTA */}
-        <a href="#contact" className="btn btn-primary navbar__cta" id="nav-cta">
+        <Link to="/contact" className="btn btn-primary navbar__cta" id="nav-cta">
           Get Started
-        </a>
+        </Link>
 
         {/* Hamburger */}
         <button
@@ -90,19 +86,19 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div className={`navbar__mobile-menu${menuOpen ? ' open' : ''}`} id="nav-mobile-menu">
         {NAV_LINKS.map(({ label, href }) => (
-          <a
+          <Link
             key={href}
-            href={href}
+            to={href}
             id={`nav-mobile-${label.toLowerCase()}`}
-            className={`navbar__mobile-link${activeLink === href ? ' active' : ''}`}
-            onClick={() => handleLinkClick(href)}
+            className={`navbar__mobile-link${location.pathname === href ? ' active' : ''}`}
+            onClick={() => setMenuOpen(false)}
           >
             {label}
-          </a>
+          </Link>
         ))}
-        <a href="#contact" className="btn btn-primary navbar__mobile-cta" id="nav-mobile-cta" onClick={() => setMenuOpen(false)}>
+        <Link to="/contact" className="btn btn-primary navbar__mobile-cta" id="nav-mobile-cta" onClick={() => setMenuOpen(false)}>
           Get Started
-        </a>
+        </Link>
       </div>
     </nav>
   );

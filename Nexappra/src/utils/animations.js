@@ -1,14 +1,14 @@
-import gsap from 'gsap';
+import gsap from "gsap";
 
 /**
  * Animate a counter from 0 to target value
  */
-export function animateCounter(element, target, duration = 2, suffix = '') {
+export function animateCounter(element, target, duration = 2, suffix = "") {
   const obj = { value: 0 };
   gsap.to(obj, {
     value: target,
     duration,
-    ease: 'power2.out',
+    ease: "power2.out",
     onUpdate: () => {
       element.textContent = Math.round(obj.value).toLocaleString() + suffix;
     },
@@ -19,14 +19,19 @@ export function animateCounter(element, target, duration = 2, suffix = '') {
  * Staggered reveal for a list of elements
  */
 export function staggerReveal(elements, options = {}) {
-  return gsap.from(elements, {
-    y: options.y || 40,
-    opacity: 0,
-    duration: options.duration || 0.8,
-    stagger: options.stagger || 0.15,
-    ease: options.ease || 'power3.out',
-    delay: options.delay || 0,
-  });
+  return gsap.fromTo(
+    elements,
+    { y: options.y || 40, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: options.duration || 0.8,
+      stagger: options.stagger || 0.15,
+      ease: options.ease || "power3.out",
+      delay: options.delay || 0,
+      clearProps: "transform", // FIX: Removed 'opacity' so the element stays visible
+    },
+  );
 }
 
 /**
@@ -44,24 +49,29 @@ export function setupParallax(container, elements, intensity = 0.02) {
         x: x * factor,
         y: y * factor,
         duration: 0.5,
-        ease: 'power2.out',
+        ease: "power2.out",
       });
     });
   };
 
-  container.addEventListener('mousemove', handleMouseMove);
-  return () => container.removeEventListener('mousemove', handleMouseMove);
+  container.addEventListener("mousemove", handleMouseMove);
+  return () => container.removeEventListener("mousemove", handleMouseMove);
 }
 
 /**
  * Smooth text reveal animation
  */
 export function textReveal(element, options = {}) {
-  return gsap.from(element, {
-    y: options.y || 60,
-    opacity: 0,
-    duration: options.duration || 1,
-    ease: options.ease || 'power3.out',
-    delay: options.delay || 0,
-  });
+  return gsap.fromTo(
+    element,
+    { y: options.y || 60, opacity: 0 },
+    {
+      y: 0,
+      opacity: 1,
+      duration: options.duration || 1,
+      ease: options.ease || "power3.out",
+      delay: options.delay || 0,
+      clearProps: "transform", // FIX: Removed 'opacity' here as well
+    },
+  );
 }

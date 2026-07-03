@@ -1,118 +1,86 @@
-import useScrollAnimation from '../hooks/useScrollAnimation';
+import React, { useEffect, useRef } from 'react';
+import { staggerReveal } from '../utils/animations';
+import { Monitor, Smartphone, Bot, Cloud } from 'lucide-react';
 import './Services.css';
 
-const servicesData = [
+const SERVICES = [
   {
-    id: 'service-web',
-    title: 'Web Development',
-    description:
-      'High-performance websites and web applications built with React, Next.js, and modern frameworks.',
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <rect x="6" y="8" width="28" height="20" rx="2" stroke="currentColor" strokeWidth="2" />
-        <line x1="14" y1="32" x2="26" y2="32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <line x1="20" y1="28" x2="20" y2="32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <polyline points="14,17 17,20 14,23" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <line x1="20" y1="23" x2="26" y2="23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    ),
+    title: 'Web Application Development',
+    desc: 'Custom, high-performance web platforms built with React, Node.js, and modern architectures ensuring scalability and security.',
+    icon: <Monitor size={32} />,
+    benefits: ['Responsive Single Page Apps', 'Progressive Web Apps (PWA)', 'High-conversion UI/UX'],
+    caseStudy: { client: 'FinTech Startup', result: 'Increased user retention by 45% with a new React dashboard.' }
   },
   {
-    id: 'service-mobile',
-    title: 'Mobile Apps',
-    description:
-      'Native and cross-platform mobile apps for iOS and Android with seamless UX.',
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <rect x="11" y="5" width="18" height="30" rx="3" stroke="currentColor" strokeWidth="2" />
-        <line x1="17" y1="8" x2="23" y2="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <circle cx="20" cy="30" r="1.5" fill="currentColor" />
-      </svg>
-    ),
+    title: 'Mobile App Solutions',
+    desc: 'Native and cross-platform mobile experiences that users love, engineered for flawless performance on both iOS and Android.',
+    icon: <Smartphone size={32} />,
+    benefits: ['React Native / Flutter', 'Offline Capabilities', 'Seamless App Store Deployment'],
+    caseStudy: { client: 'Health App', result: 'Achieved 100k+ downloads in the first month post-launch.' }
   },
   {
-    id: 'service-ai',
-    title: 'AI Solutions',
-    description:
-      'Custom AI/ML models, chatbots, and intelligent automation to transform your business.',
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <circle cx="20" cy="16" r="8" stroke="currentColor" strokeWidth="2" />
-        <path d="M14 14 C14 14 17 20 20 20 C23 20 26 14 26 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <circle cx="17" cy="14" r="1.5" fill="currentColor" />
-        <circle cx="23" cy="14" r="1.5" fill="currentColor" />
-        <path d="M12 24 L10 28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <path d="M28 24 L30 28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <path d="M16 23 L14 32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <path d="M24 23 L26 32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <path d="M20 24 L20 34" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    ),
+    title: 'AI & Machine Learning',
+    desc: 'Integrate generative AI, predictive models, and intelligent automation into your core business processes.',
+    icon: <Bot size={32} />,
+    benefits: ['Custom LLM Integrations', 'Predictive Analytics', 'Automated Workflows'],
+    caseStudy: { client: 'E-commerce Platform', result: 'Boosted sales by 20% using AI-driven product recommendations.' }
   },
   {
-    id: 'service-design',
-    title: 'UI/UX Design',
-    description:
-      'User-centered design that converts. Beautiful interfaces backed by research.',
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <path d="M10 30 L10 26 L26 10 L30 14 L14 30 Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
-        <line x1="22" y1="14" x2="26" y2="18" stroke="currentColor" strokeWidth="2" />
-        <circle cx="30" cy="28" r="4" stroke="currentColor" strokeWidth="2" />
-        <circle cx="30" cy="28" r="1.5" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    id: 'service-saas',
-    title: 'SaaS Development',
-    description:
-      'Scalable SaaS platforms with subscription billing, multi-tenancy, and analytics.',
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <path d="M12 28 C6 28 6 20 12 20 C12 14 18 10 24 14 C28 10 34 14 34 20 C38 20 38 28 32 28 Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
-        <line x1="16" y1="22" x2="28" y2="22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <line x1="18" y1="26" x2="26" y2="26" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    ),
-  },
+    title: 'Cloud & SaaS Architecture',
+    desc: 'End-to-end scalable infrastructure design, ensuring your SaaS product handles thousands of concurrent users smoothly.',
+    icon: <Cloud size={32} />,
+    benefits: ['AWS / GCP / Azure Deployment', 'Microservices Architecture', 'CI/CD Pipelines'],
+    caseStudy: { client: 'Logistics SaaS', result: 'Reduced cloud infrastructure costs by 30% via optimization.' }
+  }
 ];
 
 export default function Services() {
-  const sectionRef = useScrollAnimation();
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const cards = containerRef.current.querySelectorAll('.service-card');
+    staggerReveal(cards, { delay: 0.2, stagger: 0.15 });
+  }, []);
 
   return (
-    <section id="services" className="section services" ref={sectionRef}>
+    <section id="services" className="section services" ref={containerRef}>
       <div className="container">
-        <header className="services__header reveal">
+        
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
           <span className="section-label">What We Do</span>
-          <h2 className="section-title">
-            Services We <span className="text-gradient">Offer</span>
-          </h2>
-          <p className="section-subtitle">
-            End-to-end digital solutions tailored to your business needs
+          <h2 className="section-title">Premium Software Engineering</h2>
+          <p className="section-subtitle" style={{ margin: '0 auto' }}>
+            We transform complex problems into elegant, scalable digital products that drive your business forward.
           </p>
-        </header>
+        </div>
 
-        <div className="services__grid">
-          {servicesData.map((service, index) => (
-            <article
-              key={service.id}
-              id={service.id}
-              className={`glass-card services__card reveal delay-${index + 1}`}
-            >
-              <div className="services__icon-wrap">{service.icon}</div>
-              <h3 className="services__card-title">{service.title}</h3>
-              <p className="services__card-desc">{service.description}</p>
-              <a href={`#${service.id}`} className="services__card-link">
-                Learn more
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
-            </article>
+        <div className="services-grid">
+          {SERVICES.map((service, idx) => (
+            <div key={idx} className="service-card reveal">
+              <div className="service-icon-wrapper">
+                {service.icon}
+              </div>
+              <h3 className="service-title">{service.title}</h3>
+              <p className="service-desc">{service.desc}</p>
+              
+              <div className="service-benefits">
+                <div className="service-benefits-title">What you get</div>
+                <ul className="service-benefits-list">
+                  {service.benefits.map((benefit, bIdx) => (
+                    <li key={bIdx}>{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mini-case-study">
+                <div className="mini-case-study-title">Case Study: {service.caseStudy.client}</div>
+                <div className="mini-case-study-desc">"{service.caseStudy.result}"</div>
+              </div>
+            </div>
           ))}
         </div>
+
       </div>
     </section>
   );

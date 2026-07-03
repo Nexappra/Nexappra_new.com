@@ -1,35 +1,34 @@
 import { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import TrustBar from './components/TrustBar';
-import Services from './components/Services';
-import WhyChooseUs from './components/WhyChooseUs';
-import CaseStudies from './components/CaseStudies';
-import Process from './components/Process';
-import TechStack from './components/TechStack';
-import Testimonials from './components/Testimonials';
-import Pricing from './components/Pricing';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
+
+// Pages
+import Home from './pages/Home';
+import About from './pages/About';
+import ServicesPage from './pages/ServicesPage';
+import Careers from './pages/Careers';
+import ContactPage from './pages/ContactPage';
+
+// Floating Chatbot
+import Chatbot from './components/Chatbot';
 
 function App() {
   return (
-    <>
+    <Router>
       <Navbar />
       <main>
-        <Hero />
-        <TrustBar />
-        <Services />
-        <WhyChooseUs />
-        <CaseStudies />
-        <Process />
-        <TechStack />
-        <Testimonials />
-        <Pricing />
-        <Contact />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
       </main>
+      <Chatbot />
       <Footer />
-    </>
+    </Router>
   );
 }
 
