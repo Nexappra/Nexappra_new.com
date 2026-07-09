@@ -38,21 +38,21 @@ export default function Footer() {
 
             <nav className="footer__socials" aria-label="Social media">
               {/* LinkedIn */}
-              <a href="#" className="footer__social" id="footer-social-linkedin" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/company/nexappra/" target="_blank" rel="noopener noreferrer" className="footer__social" id="footer-social-linkedin" aria-label="LinkedIn">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                   <rect x="1" y="1" width="16" height="16" rx="3" stroke="currentColor" strokeWidth="1.4" />
                   <text x="9" y="13" textAnchor="middle" fill="currentColor" fontSize="9" fontWeight="700">in</text>
                 </svg>
               </a>
               {/* GitHub */}
-              <a href="#" className="footer__social" id="footer-social-github" aria-label="GitHub">
+              <a href="https://github.com/Nexappra" target="_blank" rel="noopener noreferrer" className="footer__social" id="footer-social-github" aria-label="GitHub">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                   <circle cx="9" cy="9" r="8" stroke="currentColor" strokeWidth="1.4" />
                   <text x="9" y="13" textAnchor="middle" fill="currentColor" fontSize="10" fontWeight="700">G</text>
                 </svg>
               </a>
               {/* Instagram */}
-              <a href="#" className="footer__social" id="footer-social-instagram" aria-label="Instagram">
+              <a href="https://www.instagram.com/nexappra?igsh=MTc4bmIzczQwZ3B3" target="_blank" rel="noopener noreferrer" className="footer__social" id="footer-social-instagram" aria-label="Instagram">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                   <rect x="1.5" y="1.5" width="15" height="15" rx="4.5" stroke="currentColor" strokeWidth="1.4" />
                   <circle cx="9" cy="9" r="3.5" stroke="currentColor" strokeWidth="1.4" />
