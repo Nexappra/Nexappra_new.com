@@ -1,7 +1,7 @@
-import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import CustomCursor from './components/CustomCursor';
 
 // Pages
 import Home from './pages/Home';
@@ -16,6 +16,7 @@ import Chatbot from './components/Chatbot';
 function App() {
   return (
     <Router>
+      <CustomCursor />
       <Navbar />
       <main>
         <Routes>

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const NAV_LINKS = [
@@ -14,6 +14,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   /* ---- Scroll listener ---- */
   useEffect(() => {
@@ -30,6 +31,13 @@ export default function Navbar() {
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
+
+  /* ---- Get Started: navigate to /contact ---- */
+  const handleGetStarted = useCallback((e) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    navigate('/contact');
+  }, [navigate]);
 
   return (
     <nav className={`navbar${scrolled ? ' scrolled' : ''}`} id="navbar">
@@ -65,9 +73,14 @@ export default function Navbar() {
         </ul>
 
         {/* Desktop CTA */}
-        <Link to="/contact" className="btn btn-primary navbar__cta" id="nav-cta">
+        <button
+          className="btn btn-primary navbar__cta"
+          id="nav-cta"
+          onClick={handleGetStarted}
+          type="button"
+        >
           Get Started
-        </Link>
+        </button>
 
         {/* Hamburger */}
         <button
@@ -96,9 +109,14 @@ export default function Navbar() {
             {label}
           </Link>
         ))}
-        <Link to="/contact" className="btn btn-primary navbar__mobile-cta" id="nav-mobile-cta" onClick={() => setMenuOpen(false)}>
+        <button
+          className="btn btn-primary navbar__mobile-cta"
+          id="nav-mobile-cta"
+          onClick={handleGetStarted}
+          type="button"
+        >
           Get Started
-        </Link>
+        </button>
       </div>
     </nav>
   );

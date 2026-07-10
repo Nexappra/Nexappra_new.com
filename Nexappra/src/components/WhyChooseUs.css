@@ -20,6 +20,7 @@
   flex-direction: column;
   gap: var(--space-6);
   margin-top: var(--space-10);
+  perspective: 800px;
 }
 
 .why-us__feature {
@@ -37,6 +38,11 @@
 .why-us__feature:hover {
   background: rgba(74, 222, 128, 0.06);
   border-left-color: var(--color-primary);
+  transform: translateX(4px) rotateY(2deg);
+}
+
+.why-us__feature:hover .why-us__feature-icon {
+  transform: rotate(8deg) scale(1.1);
 }
 
 /* Icon */

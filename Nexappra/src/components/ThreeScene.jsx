@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 import {
   Scene,
   PerspectiveCamera,
@@ -11,7 +11,7 @@ import {
   PointsMaterial,
   BufferGeometry,
   Float32BufferAttribute,
-} from 'three';
+} from "three";
 
 export default function ThreeScene() {
   const mountRef = useRef(null);
@@ -31,18 +31,26 @@ export default function ThreeScene() {
 
     const renderer = new WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    /* Cap pixel ratio for performance — 1.5 on mobile, 2 on desktop */
+    const isMobile = window.innerWidth <= 768;
+    renderer.setPixelRatio(
+      Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2),
+    );
     container.appendChild(renderer.domElement);
 
     /* ---- Wireframe sphere ---- */
     const icoGeo = new IcosahedronGeometry(2, 1);
     const wireGeo = new WireframeGeometry(icoGeo);
-    const wireMat = new LineBasicMaterial({ color: 0x4ade80, transparent: true, opacity: 0.35 });
+    const wireMat = new LineBasicMaterial({
+      color: 0x4ade80,
+      transparent: true,
+      opacity: 0.35,
+    });
     const wireframe = new LineSegments(wireGeo, wireMat);
     scene.add(wireframe);
 
-    /* ---- Particles ---- */
-    const particleCount = 500;
+    /* ---- Particles (reduced for performance) ---- */
+    const particleCount = isMobile ? 200 : 350;
     const positions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount; i++) {
       // Random point inside a sphere of radius 4
@@ -54,8 +62,16 @@ export default function ThreeScene() {
       positions[i * 3 + 2] = r * Math.cos(phi);
     }
     const particleGeo = new BufferGeometry();
-    particleGeo.setAttribute('position', new Float32BufferAttribute(positions, 3));
-    const particleMat = new PointsMaterial({ color: 0x4ade80, size: 0.025, transparent: true, opacity: 0.6 });
+    particleGeo.setAttribute(
+      "position",
+      new Float32BufferAttribute(positions, 3),
+    );
+    const particleMat = new PointsMaterial({
+      color: 0x4ade80,
+      size: 0.025,
+      transparent: true,
+      opacity: 0.6,
+    });
     const particles = new Points(particleGeo, particleMat);
     scene.add(particles);
 
@@ -65,7 +81,7 @@ export default function ThreeScene() {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
-    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
 
     /* ---- Resize handler ---- */
     const onResize = () => {
@@ -75,12 +91,25 @@ export default function ThreeScene() {
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     };
-    window.addEventListener('resize', onResize);
+    window.addEventListener("resize", onResize);
 
-    /* ---- Render loop ---- */
+    /* ---- Visibility-based render loop ---- */
     let frameId;
+    let isVisible = true;
+
+    const visibilityObserver = new IntersectionObserver(
+      (entries) => {
+        isVisible = entries[0].isIntersecting;
+      },
+      { threshold: 0 },
+    );
+    visibilityObserver.observe(container);
+
     const animate = () => {
       frameId = requestAnimationFrame(animate);
+
+      /* Skip rendering when off-screen */
+      if (!isVisible) return;
 
       // Ambient rotation
       wireframe.rotation.x += 0.001;
@@ -88,9 +117,11 @@ export default function ThreeScene() {
       particles.rotation.x += 0.0003;
       particles.rotation.y += 0.0005;
 
-      // Mouse tilt
-      wireframe.rotation.x += (mouse.y * 0.3 - wireframe.rotation.x) * 0.02;
-      wireframe.rotation.y += (mouse.x * 0.3 - wireframe.rotation.y) * 0.02;
+      // Mouse tilt (smooth lerp)
+      const targetX = mouse.y * 0.3;
+      const targetY = mouse.x * 0.3;
+      wireframe.rotation.x += (targetX - wireframe.rotation.x) * 0.02;
+      wireframe.rotation.y += (targetY - wireframe.rotation.y) * 0.02;
 
       renderer.render(scene, camera);
     };
@@ -99,8 +130,9 @@ export default function ThreeScene() {
     /* ---- Cleanup ---- */
     return () => {
       cancelAnimationFrame(frameId);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('resize', onResize);
+      visibilityObserver.disconnect();
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("resize", onResize);
 
       wireGeo.dispose();
       icoGeo.dispose();
@@ -118,7 +150,7 @@ export default function ThreeScene() {
   return (
     <div
       ref={mountRef}
-      style={{ width: '100%', height: '100%', minHeight: '300px' }}
+      style={{ width: "100%", height: "100%", minHeight: "300px" }}
       aria-hidden="true"
     />
   );

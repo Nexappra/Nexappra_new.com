@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import './Stats.css';
 
 const STATS_DATA = [
-  { label: 'Projects Completed', value: 150, suffix: '+' },
-  { label: 'Client Satisfaction', value: 99, suffix: '%' },
-  { label: 'Global Partners', value: 40, suffix: '+' },
-  { label: 'Team Members', value: 85, suffix: '+' },
+  { label: 'Projects Completed', value: 25, suffix: '+' },
+  { label: 'Client Satisfaction', value: 98, suffix: '%' },
+  { label: 'Global Partners', value: 15, suffix: '+' },
+  { label: 'Team Members', value: 12, suffix: '+' },
 ];
 
 function AnimatedCounter({ endValue, suffix }) {
@@ -58,7 +58,7 @@ function AnimatedCounter({ endValue, suffix }) {
 
 export default function Stats() {
   return (
-    <section className="stats-section">
+    <section className="stats-section" id="stats">
       <div className="container">
         <div className="stats-grid">
           {STATS_DATA.map((stat, idx) => (

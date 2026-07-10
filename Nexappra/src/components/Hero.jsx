@@ -1,4 +1,5 @@
 import { useEffect, useRef, lazy, Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { textReveal, staggerReveal } from '../utils/animations';
 import './Hero.css';
 
@@ -6,19 +7,23 @@ const ThreeScene = lazy(() => import('./ThreeScene'));
 
 export default function Hero() {
   const sectionRef = useRef(null);
+  const navigate = useNavigate();
+
+  const goToContact = () => navigate('/contact');
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    /* Stagger-reveal text elements on mount */
+    const badge = section.querySelector('.hero__badge');
     const label = section.querySelector('.hero__label');
     const headline = section.querySelector('.hero__headline');
     const subtext = section.querySelector('.hero__subtext');
     const ctas = section.querySelector('.hero__ctas');
     const trust = section.querySelector('.hero__trust');
 
-    if (label) textReveal(label, { delay: 0.2 });
+    if (badge) textReveal(badge, { delay: 0.1 });
+    if (label) textReveal(label, { delay: 0.25 });
     if (headline) textReveal(headline, { delay: 0.4 });
     if (subtext) textReveal(subtext, { delay: 0.6 });
 
@@ -30,11 +35,14 @@ export default function Hero() {
 
   return (
     <section className="hero container" id="home" ref={sectionRef}>
-      {/* Background Overlay */}
       <div className="hero__overlay" aria-hidden="true" />
-      
-      {/* Text content */}
+
       <div className="hero__content">
+        <div className="hero__badge" id="hero-badge">
+          <span className="hero__badge-dot" aria-hidden="true" />
+          🚀 Now accepting new projects for 2026
+        </div>
+
         <span className="hero__label" id="hero-label">
           Build. Innovate. Scale.
         </span>
@@ -50,21 +58,34 @@ export default function Hero() {
         </p>
 
         <div className="hero__ctas" id="hero-ctas">
-          <a href="#contact" className="btn btn-primary btn-lg" id="hero-cta-start">
+          <button
+            className="btn btn-primary btn-lg"
+            id="hero-cta-start"
+            onClick={goToContact}
+            type="button"
+          >
             Get Started
-          </a>
-          <a href="#contact" className="btn btn-outline btn-lg" id="hero-cta-consult">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </button>
+          <button
+            className="btn btn-outline btn-lg"
+            id="hero-cta-consult"
+            onClick={goToContact}
+            type="button"
+          >
             Book Consultation
-          </a>
+          </button>
         </div>
 
         <p className="hero__trust" id="hero-trust">
           <span className="hero__trust-dot" aria-hidden="true" />
-          Trusted by 50+ businesses worldwide
+          Trusted by 20+ businesses worldwide
         </p>
       </div>
 
-      {/* 3D visual */}
       <div className="hero__visual" id="hero-visual">
         <Suspense fallback={null}>
           <ThreeScene />

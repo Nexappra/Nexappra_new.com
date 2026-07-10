@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const servicesLinks = [
@@ -10,14 +11,26 @@ const servicesLinks = [
 ];
 
 const companyLinks = [
-  'About Us',
-  'Our Process',
-  'Case Studies',
-  'Careers',
-  'Blog',
+  { label: 'About Us', to: '/about' },
+  { label: 'Our Services', to: '/services' },
+  { label: 'Case Studies', to: '/#projects' },
+  { label: 'Careers', to: '/careers' },
+  { label: 'Contact', to: '/contact' },
 ];
 
 export default function Footer() {
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowBackToTop(window.scrollY > 600);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="footer" id="footer">
       {/* Gradient top border */}
@@ -27,10 +40,10 @@ export default function Footer() {
         <div className="footer__grid">
           {/* ---------- Column 1 — Brand ---------- */}
           <div className="footer__brand">
-            <a href="#" className="footer__logo" id="footer-logo">
+            <Link to="/" className="footer__logo" id="footer-logo">
               <span className="footer__logo-nex">Nex</span>
               <span className="footer__logo-appra">Appra</span>
-            </a>
+            </Link>
             <p className="footer__tagline">Build. Innovate. Scale.</p>
             <p className="footer__desc">
               We craft premium digital products that drive growth and innovation.
@@ -75,7 +88,7 @@ export default function Footer() {
             <ul className="footer__links">
               {servicesLinks.map((link) => (
                 <li key={link}>
-                  <a href="#" className="footer__link">{link}</a>
+                  <Link to="/services" className="footer__link">{link}</Link>
                 </li>
               ))}
             </ul>
@@ -85,9 +98,9 @@ export default function Footer() {
           <nav className="footer__col" aria-label="Company">
             <h4 className="footer__heading">Company</h4>
             <ul className="footer__links">
-              {companyLinks.map((link) => (
-                <li key={link}>
-                  <a href="#" className="footer__link">{link}</a>
+              {companyLinks.map(({ label, to }) => (
+                <li key={label}>
+                  <Link to={to} className="footer__link">{label}</Link>
                 </li>
               ))}
             </ul>
@@ -108,9 +121,9 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#contact" className="footer__link footer__link--cta" id="footer-get-started">
-                  Get Started
-                </a>
+                <Link to="/contact" className="footer__link footer__link--cta" id="footer-get-started">
+                  Get Started →
+                </Link>
               </li>
             </ul>
           </div>
@@ -119,13 +132,27 @@ export default function Footer() {
         {/* ---------- Bottom bar ---------- */}
         <div className="footer__bottom">
           <p className="footer__copy">
-            &copy; 2025 NexAppra. All rights reserved.
+            &copy; {new Date().getFullYear()} NexAppra. All rights reserved.
           </p>
           <p className="footer__credit">
             Designed &amp; Developed by NexAppra
           </p>
         </div>
       </div>
+
+      {/* Back to top */}
+      <button
+        className={`footer__back-to-top${showBackToTop ? ' visible' : ''}`}
+        onClick={scrollToTop}
+        aria-label="Back to top"
+        type="button"
+        id="back-to-top"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="12" y1="19" x2="12" y2="5" />
+          <polyline points="5 12 12 5 19 12" />
+        </svg>
+      </button>
     </footer>
   );
 }

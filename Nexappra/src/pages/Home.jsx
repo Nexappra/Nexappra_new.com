@@ -5,6 +5,7 @@ import Stats from '../components/Stats';
 import WhyChooseUs from '../components/WhyChooseUs';
 import CaseStudies from '../components/CaseStudies';
 import Testimonials from '../components/Testimonials';
+import CTASection from '../components/CTASection';
 import Pricing from '../components/Pricing';
 import FAQ from '../components/FAQ';
 
@@ -17,6 +18,7 @@ export default function Home() {
       <WhyChooseUs />
       <CaseStudies />
       <Testimonials />
+      <CTASection />
       <Pricing />
       <FAQ />
     </div>

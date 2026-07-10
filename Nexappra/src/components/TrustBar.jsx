@@ -1,9 +1,6 @@
-import { useEffect, useRef } from 'react';
-import useScrollAnimation from '../hooks/useScrollAnimation';
-import { animateCounter } from '../utils/animations';
 import './TrustBar.css';
 
-/* Simple SVG text logos */
+/* SVG text logos — lightweight, no image assets needed */
 const LOGOS = [
   { name: 'TechFlow', color: '#4ade80' },
   { name: 'DataSync', color: '#06b6d4' },
@@ -11,18 +8,16 @@ const LOGOS = [
   { name: 'AppForge', color: '#f59e0b' },
   { name: 'CyberCore', color: '#ef4444' },
   { name: 'InnoVex', color: '#ec4899' },
-];
-
-const STATS = [
-  { value: 150, suffix: '+', label: 'Projects Completed' },
-  { value: 50, suffix: 'M+', label: 'Users Served' },
-  { value: 99, suffix: '%', label: 'Success Rate' },
+  { name: 'PixelAI', color: '#14b8a6' },
+  { name: 'Synthera', color: '#f97316' },
+  { name: 'Quantix', color: '#6366f1' },
+  { name: 'NovaByte', color: '#22d3ee' },
 ];
 
 function LogoSVG({ name, color }) {
   return (
-    <svg viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label={name}>
-      <text x="60" y="20" textAnchor="middle" fill={color} fontFamily="Inter, sans-serif" fontSize="16" fontWeight="700" letterSpacing="0.5">
+    <svg viewBox="0 0 130 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label={name}>
+      <text x="65" y="23" textAnchor="middle" fill={color} fontFamily="Inter, sans-serif" fontSize="18" fontWeight="700" letterSpacing="0.5">
         {name}
       </text>
     </svg>
@@ -30,61 +25,24 @@ function LogoSVG({ name, color }) {
 }
 
 export default function TrustBar() {
-  const sectionRef = useScrollAnimation();
-  const statsRef = useRef(null);
-  const hasAnimated = useRef(false);
-
-  /* Animate counters when stats enter viewport */
-  useEffect(() => {
-    const statsEl = statsRef.current;
-    if (!statsEl) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated.current) {
-            hasAnimated.current = true;
-
-            const numberEls = statsEl.querySelectorAll('.trust-bar__stat-number');
-            STATS.forEach((stat, i) => {
-              if (numberEls[i]) {
-                animateCounter(numberEls[i], stat.value, 2, stat.suffix);
-              }
-            });
-
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(statsEl);
-    return () => observer.disconnect();
-  }, []);
+  /* Duplicate logos for seamless infinite scroll */
+  const allLogos = [...LOGOS, ...LOGOS];
 
   return (
-    <section className="trust-bar section" id="trust-bar" ref={sectionRef}>
+    <section className="trust-bar" id="trust-bar">
       <div className="container">
-        {/* Client logos */}
-        <div className="trust-bar__logos reveal" id="trust-logos">
-          {LOGOS.map(({ name, color }) => (
-            <div className="trust-bar__logo" key={name} id={`trust-logo-${name.toLowerCase()}`}>
-              <LogoSVG name={name} color={color} />
-            </div>
-          ))}
-        </div>
+        <p className="trust-bar__header">Trusted by innovators worldwide</p>
+      </div>
 
-        {/* Stats */}
-        <div className="trust-bar__stats" ref={statsRef} id="trust-stats">
-          {STATS.map(({ suffix, label }, idx) => (
+      <div className="trust-bar__marquee">
+        <div className="trust-bar__marquee-track">
+          {allLogos.map(({ name, color }, index) => (
             <div
-              className={`trust-bar__stat glass-card reveal delay-${idx + 1}`}
-              key={label}
-              id={`trust-stat-${idx}`}
+              className="trust-bar__logo"
+              key={`${name}-${index}`}
+              id={index < LOGOS.length ? `trust-logo-${name.toLowerCase()}` : undefined}
             >
-              <div className="trust-bar__stat-number">0{suffix}</div>
-              <div className="trust-bar__stat-label">{label}</div>
+              <LogoSVG name={name} color={color} />
             </div>
           ))}
         </div>
