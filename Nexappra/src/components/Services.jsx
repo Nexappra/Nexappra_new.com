@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { staggerReveal } from '../utils/animations';
-import { Monitor, Smartphone, Bot, Cloud } from 'lucide-react';
+import { Monitor, Smartphone, Bot, Cloud, PaintbrushIcon, Paintbrush2, Gamepad2, ShieldCheck } from 'lucide-react';
 import './Services.css';
 
 const SERVICES = [
@@ -31,7 +31,35 @@ const SERVICES = [
     icon: <Cloud size={32} />,
     benefits: ['AWS / GCP / Azure Deployment', 'Microservices Architecture', 'CI/CD Pipelines'],
     caseStudy: { client: 'Logistics SaaS', result: 'Reduced cloud infrastructure costs by 30% via optimization.' }
-  }
+  },
+  {
+    title: 'UI/UX Design',
+    desc: 'Crafting intuitive, user-centric wireframes and visually stunning interfaces that elevate user engagement and product adoption.',
+    icon: <Paintbrush2 size={32} />,
+    benefits: ['Wireframing & Prototyping',
+    'User Research & Persona Mapping',
+    'Responsive Web & Mobile Design'],
+    caseStudy: { client: 'EDTECH PLATFORM', result: 'Boosted course completion rates by 35% through a simplified learning dashboard.'}
+  },
+   {
+    title: 'Game Development\n(Android/Mobile Games)',
+    desc: 'Creating immersive, high-performance 2D and 3D mobile games with smooth controls and engaging gameplay mechanics for Android and iOS.',
+    icon: <Gamepad2 size={32} />,
+    benefits: ['Cross-Platform Game Engines (Unity)',
+    'Physics & Gameplay Programming',
+    'In-App Purchases & Ads Integration'],
+    caseStudy: { client: 'HYPER-CASUAL STUDIO', result: '1M+ downloads in 2 months by optimizing\nperformance and touch controls.'}
+  },
+   {
+    title: 'Cyber Security Solution',
+    desc: 'Protecting your digital assets with advanced threat detection, secure cloud infrastructure hardening, and robust data encryption practices.',
+    icon: <ShieldCheck size={32} />,
+    benefits: ['Vulnerability & Penetration Testing',
+    'End-to-End Data Encryption',
+    'Incident Response & Threat Mitigation'],
+    caseStudy: { client: 'FINANCE & BANKING PORTAL', result: 'Blocked over 10k+ daily automated cyber attacks by implementing a zero-trust architecture.'}
+  },
+  
 ];
 
 export default function Services() {
