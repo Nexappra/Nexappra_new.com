@@ -76,7 +76,7 @@ export default function Hero() {
             onClick={goToContact}
             type="button"
           >
-            Book Consultation
+            30 Min Free Consultation
           </button>
         </div>
 
