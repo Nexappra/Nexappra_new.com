@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
+import ApplicationForm from "./components/Applicationform";
 
 // Pages
 import Home from './pages/Home';
@@ -25,6 +26,7 @@ function App() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/apply" element={<ApplicationForm />} />
         </Routes>
       </main>
       <Chatbot />
@@ -34,3 +36,6 @@ function App() {
 }
 
 export default App;
+
+
+
