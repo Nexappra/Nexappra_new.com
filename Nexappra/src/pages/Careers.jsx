@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { staggerReveal } from '../utils/animations';
 import './Pages.css';
+import { Link } from "react-router-dom";
 
 const JOBS = [
   {
@@ -70,7 +71,10 @@ export default function Careers() {
                   Skills: {job.skills}
                 </div>
               </div>
+              <Link to="/apply">
+              
               <button className="btn btn-primary job-apply-btn">Apply Now</button>
+              </Link>
             </div>
           ))}
         </div>
