@@ -130,7 +130,7 @@ export default function ApplicationForm() {
             id="position" 
             name="position" 
             onChange={handleChange}
-            placeholder="Enter the position you are applying for" required/>
+            placeholder="Enter the position you are applying for"/>
             
              
             
