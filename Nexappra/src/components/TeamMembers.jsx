@@ -72,6 +72,7 @@ const TEAM_CATEGORIES = [
         name: 'Muhammad Al Yasa Dawood',
         role: 'Co-Founder & Director',
         gender: 'male',
+        type: 'Leadership',
         linkedin: 'https://www.linkedin.com/in/muhammad-al-yasa-dawood-666317286/',
         portfolio: 'https://alyasa62.github.io/',
       },
@@ -79,6 +80,7 @@ const TEAM_CATEGORIES = [
         name: 'Muhammad Usman Khan',
         role: 'Co-Founder',
         gender: 'male',
+        type: 'Leadership',
         linkedin: 'https://www.linkedin.com/in/muhammad-usman-khan-9ba575381',
         github: 'https://github.com/codewithuusman',
       },
@@ -138,7 +140,7 @@ const TEAM_CATEGORIES = [
       },
       {
         name: 'Ammad Mahmood',
-        role: 'Web Development Intern',
+        role: 'Frontend Developer',
         gender: 'male',
         linkedin: 'https://www.linkedin.com/in/ammad-mahmood-a8322a254',
         github: 'https://github.com/Ammad-07',
@@ -282,13 +284,20 @@ function MemberCard({ member }) {
             onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/team/avatar.svg'; }}
           />
         </div>
-        
+        {member.type === 'Leadership' && (
+          <span className="member-type-badge badge-leadership">Leader</span>
+        )}
+        {member.isTeamLead && (
+          <span className="member-type-badge badge-full-time">Team Lead</span>
+        )}
+        {member.type === 'Ambassador' && (
+          <span className="member-type-badge badge-ambassador">Ambassador</span>
+        )}
       </div>
 
       <div className="member-info">
         <h4 className="member-name">
           {member.name}
-          {member.isTeamLead && <span className="team-lead-tag">Team Lead</span>}
         </h4>
         <p className="member-role text-gradient">{member.role}</p>
 
