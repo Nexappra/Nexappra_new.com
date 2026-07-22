@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,23 +28,19 @@ const REGIONAL_BUDGETS = {
     { id: '50k+', title: '$50k+', desc: 'Enterprise solutions' },
   ]
 };
-const REGIONAL_COUNTRIES = {
-  europe: [
-    'United States', 'United Kingdom', 'Canada', 'Germany', 
-    'France', 'Australia', 'Spain', 'Italy', 'Other (Western)'
-  ],
-  asia: [
-    'Pakistan', 'India', 'United Arab Emirates', 'Saudi Arabia', 
-    'Egypt', 'Nigeria', 'Kenya', 'Other (Asia/Africa)'
-  ]
-};
 
 const initialForm = {
   projectType: '',
+  region: '',
+  country: '',
   budget: '',
   message: '',
+  deadline: '',
+  file: null,
   name: '',
   email: '',
+  phone: '',
+  howHeard: '',
 };
 
 export default function Contact() {
@@ -52,6 +48,131 @@ export default function Contact() {
   const [form, setForm] = useState(initialForm);
   const [step, setStep] = useState(1);
   const totalSteps = 4;
+
+  // 🏳️ Countries API States
+  const [countries, setCountries] = useState([]);
+  const [loadingCountries, setLoadingCountries] = useState(false);
+  const [apiStatus, setApiStatus] = useState('');
+
+  const currentRegion = form.region;
+  const currentCountry = form.country;
+
+  // 🌍 Fetching region countries with Fallback system
+  useEffect(() => {
+    if (!currentRegion) {
+      setCountries([]);
+      setApiStatus('Please select a region');
+      return;
+    }
+
+    setLoadingCountries(true);
+    setApiStatus('Loading countries...');
+
+    fetch('https://restcountries.com/v3.1/all?fields=name,cca2,region')
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((rawList) => {
+        if (Array.isArray(rawList) && rawList.length > 0) {
+          const filtered = rawList.filter((c) => {
+            const reg = (c.region || '').toLowerCase();
+            if (currentRegion === 'asia') {
+              return reg === 'asia' || reg === 'africa';
+            } else if (currentRegion === 'europe') {
+              return reg === 'europe' || reg === 'americas' || reg === 'oceania' || reg === 'antarctic';
+            }
+            return true;
+          });
+
+          const formatted = filtered
+            .map((c) => ({
+              code: c.cca2 || c.name?.common,
+              name: c.name?.common,
+            }))
+            .filter((c) => c.name);
+
+          formatted.sort((a, b) => a.name.localeCompare(b.name));
+
+          if (formatted.length > 0) {
+            setCountries(formatted);
+            setApiStatus(`Loaded ${formatted.length} countries.`);
+            return;
+          }
+        }
+        throw new Error('No data received');
+      })
+      .catch((err) => {
+        console.warn('API error, using static region fallback:', err);
+        // Backup list so countries ALWAYS show up
+        const fallbackAsiaAfrica = [
+          { code: 'AF', name: 'Afghanistan' },
+          { code: 'DZ', name: 'Algeria' },
+          { code: 'BH', name: 'Bahrain' },
+          { code: 'BD', name: 'Bangladesh' },
+          { code: 'CN', name: 'China' },
+          { code: 'EG', name: 'Egypt' },
+          { code: 'IN', name: 'India' },
+          { code: 'ID', name: 'Indonesia' },
+          { code: 'IR', name: 'Iran' },
+          { code: 'IQ', name: 'Iraq' },
+          { code: 'JP', name: 'Japan' },
+          { code: 'JO', name: 'Jordan' },
+          { code: 'KE', name: 'Kenya' },
+          { code: 'KW', name: 'Kuwait' },
+          { code: 'MY', name: 'Malaysia' },
+          { code: 'MA', name: 'Morocco' },
+          { code: 'NG', name: 'Nigeria' },
+          { code: 'OM', name: 'Oman' },
+          { code: 'PK', name: 'Pakistan' },
+          { code: 'PH', name: 'Philippines' },
+          { code: 'QA', name: 'Qatar' },
+          { code: 'SA', name: 'Saudi Arabia' },
+          { code: 'SG', name: 'Singapore' },
+          { code: 'ZA', name: 'South Africa' },
+          { code: 'KR', name: 'South Korea' },
+          { code: 'LK', name: 'Sri Lanka' },
+          { code: 'TH', name: 'Thailand' },
+          { code: 'TR', name: 'Turkey' },
+          { code: 'AE', name: 'United Arab Emirates' },
+          { code: 'VN', name: 'Vietnam' }
+        ];
+
+        const fallbackEuropeAmericas = [
+          { code: 'AU', name: 'Australia' },
+          { code: 'AT', name: 'Austria' },
+          { code: 'BE', name: 'Belgium' },
+          { code: 'BR', name: 'Brazil' },
+          { code: 'CA', name: 'Canada' },
+          { code: 'DK', name: 'Denmark' },
+          { code: 'FI', name: 'Finland' },
+          { code: 'FR', name: 'France' },
+          { code: 'DE', name: 'Germany' },
+          { code: 'GR', name: 'Greece' },
+          { code: 'IE', name: 'Ireland' },
+          { code: 'IT', name: 'Italy' },
+          { code: 'MX', name: 'Mexico' },
+          { code: 'NL', name: 'Netherlands' },
+          { code: 'NZ', name: 'New Zealand' },
+          { code: 'NO', name: 'Norway' },
+          { code: 'PL', name: 'Poland' },
+          { code: 'PT', name: 'Portugal' },
+          { code: 'ES', name: 'Spain' },
+          { code: 'SE', name: 'Sweden' },
+          { code: 'CH', name: 'Switzerland' },
+          { code: 'GB', name: 'United Kingdom' },
+          { code: 'US', name: 'United States' }
+        ];
+
+        const list = currentRegion === 'asia' ? fallbackAsiaAfrica : fallbackEuropeAmericas;
+        list.sort((a, b) => a.name.localeCompare(b.name));
+        setCountries(list);
+        setApiStatus('Loaded fallback country list.');
+      })
+      .finally(() => {
+        setLoadingCountries(false);
+      });
+  }, [currentRegion]);
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -70,6 +191,8 @@ export default function Contact() {
     setForm(initialForm);
     setStep(1);
   };
+
+  const availableBudgets = currentRegion && REGIONAL_BUDGETS ? REGIONAL_BUDGETS[currentRegion] : [];
 
   const renderStepContent = () => {
     switch (step) {
@@ -93,206 +216,197 @@ export default function Contact() {
             </div>
           </div>
         );
-      case 2: {
-const currentRegion = form.region;
-const currentCountry = form.country; 
-const availableBudgets = currentRegion ? REGIONAL_BUDGETS[currentRegion] : null;
 
+      case 2:
+        return (
+          <div className="onboarding__step-panel">
+            <h3 className="step-title">What is your estimated budget?</h3>
+            <p className="step-subtitle">This helps us propose the best solution for your resources.</p>
 
+            {/* 🌐 1. Region Selection Dropdown */}
+            <div className="contact__field region-select-wrapper">
+              <label htmlFor="region-select" className="contact__label">
+                Select Your Region
+              </label>
 
-return (
-  <div className="onboarding__step-panel">
-    <h3 className="step-title">What is your estimated budget?</h3>
-    <p className="step-subtitle">This helps us propose the best solution for your resources.</p>
-    
-    {/* 🌐 1. Region Selection Dropdown */}
-    <div className="contact__field region-select-wrapper">
-      <label htmlFor="region-select" className="contact__label">
-        Select Your Region
-      </label>
-      
-      <div className="dropdown-container">
-        <select
-          id="region-select"
-          name="region"
-          className={`contact__input contact__select ${form.region ? 'selected' : ''}`}
-          value={form.region || ''} 
-          onChange={(e) => {
-            handleSelect('region', e.target.value);
-            handleSelect('country', ''); // Region badalne par country reset hogi
-            handleSelect('budget', '');  // Region badalne par budget reset hoga
-          }}
-          required
-        >
-          <option value="" disabled className="select-option placeholder">
-            -- Select Region --
-          </option>
-          <option value="europe" className="select-option">
-            Europe / North America / Other
-          </option>
-          <option value="asia" className="select-option">
-            Asia / Africa
-          </option>
-        </select>
+              <div className="dropdown-container">
+                <select
+                  id="region-select"
+                  name="region"
+                  className={`contact__input contact__select ${form.region ? 'selected' : ''}`}
+                  value={form.region || ''}
+                  onChange={(e) => {
+                    handleSelect('region', e.target.value);
+                    handleSelect('country', '');
+                    handleSelect('budget', '');
+                  }}
+                  required
+                >
+                  <option value="" disabled className="select-option placeholder">
+                    -- Select Region --
+                  </option>
+                  <option value="europe" className="select-option">
+                    Europe / North America / Other
+                  </option>
+                  <option value="asia" className="select-option">
+                    Asia / Africa
+                  </option>
+                </select>
+                <div className="dropdown-arrow">
+                  <svg width="12" height="7" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              </div>
+            </div>
 
-        <div className="dropdown-arrow">
-          <svg width="12" height="7" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-      </div>
-    </div>
+            {/* 🏳️ 2. Dynamic API Country Selection Dropdown */}
+            {currentRegion && (
+              <div className="contact__field country-select-wrapper mt-4">
+                <label htmlFor="country-select" className="contact__label">
+                  Select Your Country
+                </label>
 
-    {/* 🏳️ 2. Dynamic Country Selection Dropdown (Only shows when region is selected) */}
-    {currentRegion && (
-      <div className="contact__field country-select-wrapper mt-4">
-        <label htmlFor="country-select" className="contact__label">
-          Select Your Country
-        </label>
-        
-        <div className="dropdown-container">
-          <select
-            id="country-select"
-            name="country"
-            className={`contact__input contact__select ${form.country ? 'selected' : ''}`}
-            value={form.country || ''} 
-            onChange={(e) => {
-              handleSelect('country', e.target.value);
-              handleSelect('budget', ''); // Country badalne par budget reset hoga
-            }}
-            required
-          >
-            <option value="" disabled className="select-option placeholder">
-              -- Select Country --
-            </option>
-            {REGIONAL_COUNTRIES[currentRegion].map((country, idx) => (
-              <option key={idx} value={country.toLowerCase().replace(/\s+/g, '-')} className="select-option">
-                {country}
-              </option>
-            ))}
-          </select>
+                <div className="dropdown-container">
+                  <select
+                    id="country-select"
+                    name="country"
+                    className={`contact__input contact__select ${form.country ? 'selected' : ''}`}
+                    value={form.country || ''}
+                    disabled={loadingCountries}
+                    onChange={(e) => {
+                      handleSelect('country', e.target.value);
+                      handleSelect('budget', '');
+                    }}
+                    required
+                  >
+                    <option value="" disabled className="select-option placeholder">
+                      {loadingCountries ? 'Loading countries...' : '-- Select Country --'}
+                    </option>
 
-          <div className="dropdown-arrow">
-            <svg width="12" height="7" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+                    {Array.isArray(countries) && countries.map((c) => (
+                      <option key={c.code} value={c.code} className="select-option">
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className="dropdown-arrow">
+                    <svg width="12" height="7" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 💰 3. Dynamic Budget Options Grid */}
+            {currentCountry ? (
+              <div className="options-grid mt-6">
+                {availableBudgets?.map((b) => (
+                  <div
+                    key={b.id}
+                    className={`option-card ${form.budget === b.id ? 'selected' : ''}`}
+                    onClick={() => handleSelect('budget', b.id)}
+                  >
+                    <h4 className="option-title">{b.title}</h4>
+                    <p className="option-desc">{b.desc}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="region-prompt-box mt-6">
+                <p className="step-subtitle">
+                  Please select your region and country to view customized pricing options.
+                </p>
+              </div>
+            )}
           </div>
-        </div>
-      </div>
-    )}
+        );
 
-    {/* 💰 3. Dynamic Budget Options Grid (Shows ONLY when COUNTRY is selected) */}
-    {currentCountry ? (
-      <div className="options-grid mt-6">
-        {availableBudgets.map((b) => (
-          <div
-            key={b.id}
-            className={`option-card ${form.budget === b.id ? 'selected' : ''}`}
-            onClick={() => handleSelect('budget', b.id)}
-          >
-            <h4 className="option-title">{b.title}</h4>
-            <p className="option-desc">{b.desc}</p>
-          </div>
-        ))}
-      </div>
-    ) : (
-      <div className="region-prompt-box mt-6">
-        <p className="step-subtitle">
-          Please select your region and country to view customized pricing options.
-        </p>
-      </div>
-    )}
-  </div>
-);}
       case 3:
-       const today = new Date().toISOString().split('T')[0];
+        return (
+          <div className="onboarding__step-panel">
+            <h3 className="step-title">Tell us more about the project</h3>
+            <p className="step-subtitle">Provide any specific requirements, features, or references.</p>
 
-return (
-  <div className="onboarding__step-panel">
-    <h3 className="step-title">Tell us more about the project</h3>
-    <p className="step-subtitle">Provide any specific requirements, features, or references.</p>
-    
-    <div className="form-grid">
-      {/* Project Details Textarea */}
-      <div className="contact__field">
-        <label htmlFor="contact-message" className="contact__label">Project Details</label>
-        <textarea
-          id="contact-message"
-          name="message"
-          className="contact__input contact__textarea"
-          placeholder="Describe your vision, target audience, and key features..."
-          value={form.message}
-          onChange={handleChange}
-        />
-      </div>
+            <div className="form-grid">
+              <div className="contact__field">
+                <label htmlFor="contact-message" className="contact__label">Project Details</label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  className="contact__input contact__textarea"
+                  placeholder="Describe your vision, target audience, and key features..."
+                  value={form.message}
+                  onChange={handleChange}
+                />
+              </div>
 
-      {/* 📅 Compact Date Picker with Icon */}
-      <div className="contact__field contact__field--compact">
-        <label className="contact__label">Desired Deadline</label>
-        <div className="input-icon-wrapper">
-          <DatePicker
-            selected={form.deadline ? new Date(form.deadline) : null}
-            onChange={(date) => {
-              handleChange({
-                target: {
-                  name: 'deadline',
-                  value: date ? date.toISOString().split('T')[0] : ''
-                }
-              });
-            }}
-            minDate={new Date()} 
-            dateFormat="yyyy-MM-dd"
-            placeholderText="Select a deadline"
-            className="contact__input contact__input--compact" 
-            required
-          />
-          {/* Calendar Icon */}
-          <div className="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
+              <div className="contact__field contact__field--compact">
+                <label className="contact__label">Desired Deadline</label>
+                <div className="input-icon-wrapper">
+                  <DatePicker
+                    selected={form.deadline ? new Date(form.deadline) : null}
+                    onChange={(date) => {
+                      handleChange({
+                        target: {
+                          name: 'deadline',
+                          value: date ? date.toISOString().split('T')[0] : ''
+                        }
+                      });
+                    }}
+                    minDate={new Date()}
+                    dateFormat="yyyy-MM-dd"
+                    placeholderText="Select a deadline"
+                    className="contact__input contact__input--compact"
+                    required
+                  />
+                  <div className="input-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div className="contact__field contact__field--compact">
+                <label htmlFor="project-files" className="contact__label">
+                  Attach Project References
+                </label>
+                <div className="input-icon-wrapper">
+                  <input
+                    type="file"
+                    id="project-files"
+                    name="file"
+                    accept=".pdf,.doc,.docx,.png,.jpg,.zip"
+                    className="contact__input contact__input--compact contact__file-input"
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        handleChange({
+                          target: {
+                            name: 'file',
+                            value: e.target.files[0]
+                          }
+                        });
+                      }
+                    }}
+                  />
+                  <div className="input-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                    </svg>
+                  </div>
+                </div>
+                <span className="file-hint">Allowed formats: PDF, DOC, PNG, JPG, ZIP</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        );
 
-      {/* 📁 Compact File Attachment Input */}
-      <div className="contact__field contact__field--compact">
-        <label htmlFor="project-files" className="contact__label">
-          Attach Project References
-        </label>
-        <div className="input-icon-wrapper">
-          <input
-            type="file"
-            id="project-files"
-            name="file"
-            accept=".pdf,.doc,.docx,.png,.jpg,.zip" 
-            className="contact__input contact__input--compact contact__file-input"
-            onChange={(e) => {
-              if (e.target.files) {
-                handleChange({
-                  target: {
-                    name: 'file',
-                    value: e.target.files[0]
-                  }
-                });
-              }
-            }}
-          />
-          {/* Attachment Icon */}
-          <div className="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
-            </svg>
-          </div>
-        </div>
-        <span className="file-hint">Allowed formats: PDF, DOC, PNG, JPG, ZIP</span>
-      </div>
-    </div>
-  </div>
-);
       case 4:
         return (
           <div className="onboarding__step-panel">
@@ -325,40 +439,42 @@ return (
                   required
                 />
               </div>
-               <div className="contact__field">
-  <label htmlFor="Phone-No" className="contact__label">Phone No</label>
-  <input
-    type="tel"
-    id="Phone-No"
-    name="phone"
-    className="contact__input"
-    placeholder="+923001234567"
-    value={form.phone} 
-    onChange={handleChange}
-    required
-  />
-</div>
-<div className="contact__field">
-  <label htmlFor="how-heard" className="contact__label">How did you hear about us?</label>
-  <select
-    id="how-heard"
-    name="howHeard"
-    className="contact__input" 
-    style={{ appearance: 'auto' }} 
-    onChange={handleChange}
-    required
-  >
-    <option value="" disabled>Select an option</option>
-    <option value="social-media">Social Media (LinkedIn, Facebook, Instagram)</option>
-    <option value="search-engine">Search Engine (Google, Bing)</option>
-    <option value="friend-colleague">Friend / Colleague Recommendation</option>
-    <option value="clutch-upwork">Freelance Platforms (Upwork, Clutch)</option>
-    <option value="other">Other</option>
-  </select>
-</div>
+              <div className="contact__field">
+                <label htmlFor="Phone-No" className="contact__label">Phone No</label>
+                <input
+                  type="tel"
+                  id="Phone-No"
+                  name="phone"
+                  className="contact__input"
+                  placeholder="+923001234567"
+                  value={form.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="contact__field">
+                <label htmlFor="how-heard" className="contact__label">How did you hear about us?</label>
+                <select
+                  id="how-heard"
+                  name="howHeard"
+                  className="contact__input"
+                  style={{ appearance: 'auto' }}
+                  value={form.howHeard || ''}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="" disabled>Select an option</option>
+                  <option value="social-media">Social Media (LinkedIn, Facebook, Instagram)</option>
+                  <option value="search-engine">Search Engine (Google, Bing)</option>
+                  <option value="friend-colleague">Friend / Colleague Recommendation</option>
+                  <option value="clutch-upwork">Freelance Platforms (Upwork, Clutch)</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
             </div>
           </div>
         );
+
       default:
         return null;
     }
@@ -372,7 +488,7 @@ return (
   ];
 
   const getLeftPanelText = () => {
-    switch(step) {
+    switch (step) {
       case 1: return { title: "Let's Build Something Extraordinary", desc: "Share your vision with us, and our team of experts will help you bring it to life." };
       case 2: return { title: "Aligning on Expectations", desc: "Knowing your budget ensures we architect a solution that maximizes your ROI." };
       case 3: return { title: "The Devil is in the Details", desc: "The more we know about your goals and users, the better we can tailor our approach." };
@@ -386,15 +502,12 @@ return (
   return (
     <section id="contact" className="section contact" ref={sectionRef}>
       <div className="container reveal">
-        
-        {/* Onboarding UI Box */}
         <div className="onboarding-container">
-          
           {/* Left Sidebar */}
           <div className="onboarding__sidebar">
             <div className="onboarding__sidebar-bg" aria-hidden="true" />
             <div className="onboarding__sidebar-overlay" aria-hidden="true" />
-            
+
             <div className="onboarding__sidebar-content">
               <div>
                 <div className="onboarding__step-indicator">Step {step} of {totalSteps}</div>
@@ -404,8 +517,8 @@ return (
 
               <div className="onboarding__progress">
                 {stepsInfo.map((s) => (
-                  <div 
-                    key={s.num} 
+                  <div
+                    key={s.num}
                     className={`progress-step ${step === s.num ? 'active' : ''} ${step > s.num ? 'completed' : ''}`}
                   >
                     <div className="step-circle">
@@ -420,11 +533,10 @@ return (
 
           {/* Right Content Form Area */}
           <div className="onboarding__content">
-            <form 
-              onSubmit={step === totalSteps ? handleSubmit : (e) => { e.preventDefault(); nextStep(); }} 
+            <form
+              onSubmit={step === totalSteps ? handleSubmit : (e) => { e.preventDefault(); nextStep(); }}
               style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
             >
-              
               {renderStepContent()}
 
               <div className="onboarding__actions">
@@ -433,15 +545,15 @@ return (
                     ← Back
                   </button>
                 ) : <div />}
-                
+
                 {step < totalSteps ? (
-                  <button 
-                    type="button" 
-                    className="btn btn-primary btn-next" 
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-next"
                     onClick={nextStep}
                     disabled={
-                      (step === 1 && !form.projectType) || 
-                      (step === 2 && !form.budget)
+                      (step === 1 && !form.projectType) ||
+                      (step === 2 && (!form.region || !form.country || !form.budget))
                     }
                   >
                     Next Step →
