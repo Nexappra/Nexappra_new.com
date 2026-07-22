@@ -28,6 +28,16 @@ const REGIONAL_BUDGETS = {
     { id: '50k+', title: '$50k+', desc: 'Enterprise solutions' },
   ]
 };
+const REGIONAL_COUNTRIES = {
+  europe: [
+    'United States', 'United Kingdom', 'Canada', 'Germany', 
+    'France', 'Australia', 'Spain', 'Italy', 'Other (Western)'
+  ],
+  asia: [
+    'Pakistan', 'India', 'United Arab Emirates', 'Saudi Arabia', 
+    'Egypt', 'Nigeria', 'Kenya', 'Other (Asia/Africa)'
+  ]
+};
 
 const initialForm = {
   projectType: '',
@@ -84,44 +94,84 @@ export default function Contact() {
           </div>
         );
       case 2: {
-  const currentRegion = form.region;
-  const availableBudgets = currentRegion ? REGIONAL_BUDGETS[currentRegion] : null;
+const currentRegion = form.region;
+const currentCountry = form.country; 
+const availableBudgets = currentRegion ? REGIONAL_BUDGETS[currentRegion] : null;
 
-  return (
-    <div className="onboarding__step-panel">
-      <h3 className="step-title">What is your estimated budget?</h3>
-      <p className="step-subtitle">This helps us propose the best solution for your resources.</p>
+
+
+return (
+  <div className="onboarding__step-panel">
+    <h3 className="step-title">What is your estimated budget?</h3>
+    <p className="step-subtitle">This helps us propose the best solution for your resources.</p>
+    
+    {/* 🌐 1. Region Selection Dropdown */}
+    <div className="contact__field region-select-wrapper">
+      <label htmlFor="region-select" className="contact__label">
+        Select Your Region
+      </label>
       
-      {/* 🌐 Region Selection Dropdown */}
-      <div className="contact__field region-select-wrapper">
-        <label htmlFor="country-region" className="contact__label">
-          Select Your Region / Country
+      <div className="dropdown-container">
+        <select
+          id="region-select"
+          name="region"
+          className={`contact__input contact__select ${form.region ? 'selected' : ''}`}
+          value={form.region || ''} 
+          onChange={(e) => {
+            handleSelect('region', e.target.value);
+            handleSelect('country', ''); // Region badalne par country reset hogi
+            handleSelect('budget', '');  // Region badalne par budget reset hoga
+          }}
+          required
+        >
+          <option value="" disabled className="select-option placeholder">
+            -- Select Region --
+          </option>
+          <option value="europe" className="select-option">
+            Europe / North America / Other
+          </option>
+          <option value="asia" className="select-option">
+            Asia / Africa
+          </option>
+        </select>
+
+        <div className="dropdown-arrow">
+          <svg width="12" height="7" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    {/* 🏳️ 2. Dynamic Country Selection Dropdown (Only shows when region is selected) */}
+    {currentRegion && (
+      <div className="contact__field country-select-wrapper mt-4">
+        <label htmlFor="country-select" className="contact__label">
+          Select Your Country
         </label>
         
         <div className="dropdown-container">
           <select
-            id="country-region"
-            name="region"
-            className={`contact__input contact__select ${form.region ? 'selected' : ''}`}
-            value={form.region || ''} 
+            id="country-select"
+            name="country"
+            className={`contact__input contact__select ${form.country ? 'selected' : ''}`}
+            value={form.country || ''} 
             onChange={(e) => {
-              handleSelect('region', e.target.value);
-              handleSelect('budget', '');
+              handleSelect('country', e.target.value);
+              handleSelect('budget', ''); // Country badalne par budget reset hoga
             }}
             required
           >
             <option value="" disabled className="select-option placeholder">
-              -- Select Country/Region --
+              -- Select Country --
             </option>
-            <option value="europe" className="select-option">
-              Europe / North America / Other
-            </option>
-            <option value="asia" className="select-option">
-              Asia / Africa
-            </option>
+            {REGIONAL_COUNTRIES[currentRegion].map((country, idx) => (
+              <option key={idx} value={country.toLowerCase().replace(/\s+/g, '-')} className="select-option">
+                {country}
+              </option>
+            ))}
           </select>
 
-          {/* 🔻 Custom Arrow Icon */}
           <div className="dropdown-arrow">
             <svg width="12" height="7" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -129,31 +179,31 @@ export default function Contact() {
           </div>
         </div>
       </div>
+    )}
 
-      {/* 💰 Dynamic Options Grid */}
-      {currentRegion ? (
-        <div className="options-grid">
-          {availableBudgets.map((b) => (
-            <div
-              key={b.id}
-              className={`option-card ${form.budget === b.id ? 'selected' : ''}`}
-              onClick={() => handleSelect('budget', b.id)}
-            >
-              <h4 className="option-title">{b.title}</h4>
-              <p className="option-desc">{b.desc}</p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="region-prompt-box">
-          <p className="step-subtitle">
-            Please select your region first to view customized pricing options.
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
+    {/* 💰 3. Dynamic Budget Options Grid (Shows ONLY when COUNTRY is selected) */}
+    {currentCountry ? (
+      <div className="options-grid mt-6">
+        {availableBudgets.map((b) => (
+          <div
+            key={b.id}
+            className={`option-card ${form.budget === b.id ? 'selected' : ''}`}
+            onClick={() => handleSelect('budget', b.id)}
+          >
+            <h4 className="option-title">{b.title}</h4>
+            <p className="option-desc">{b.desc}</p>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div className="region-prompt-box mt-6">
+        <p className="step-subtitle">
+          Please select your region and country to view customized pricing options.
+        </p>
+      </div>
+    )}
+  </div>
+);}
       case 3:
        const today = new Date().toISOString().split('T')[0];
 

@@ -43,7 +43,8 @@ export default function Careers() {
   }, []);
 
   return (
-    <div className="page-transition careers-page" style={{ paddingTop: '100px', minHeight: '100vh' }}>
+    
+<div className="page-transition careers-page" style={{ paddingTop: '120px', paddingBottom: '5rem', minHeight: '100vh' }}>
       <div className="container" ref={containerRef}>
         
         {/* Intro */}
