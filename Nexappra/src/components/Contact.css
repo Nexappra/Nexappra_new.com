@@ -355,19 +355,23 @@
 }
 
 .contact__select {
+  width: 100%;
+  height: 48px;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
-  padding-right: 42px;
+  padding: 12px 42px 12px 16px;
   background-color: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
   color: var(--color-text-secondary);
   font-weight: 500;
+  accent-color: var(--color-primary);
   transition: all var(--transition-base);
 }
 
-/* Jab region select ho jaye tab accent color highlight hogo */
+/* Jab region select ho jaye tab accent color highlight hoga */
 .contact__select.selected {
   color: var(--color-primary);
   border-color: var(--color-primary);
@@ -377,7 +381,7 @@
 /* Options dropdown menu list styling */
 .contact__select option {
   background-color: var(--color-bg-secondary);
-  color: var(--color-text);
+  color: var(--color-primary);
   padding: 12px;
 }
 
@@ -386,6 +390,14 @@
   opacity: 0.6;
 }
 
+/* Option Hover / Active State Override */
+.contact__select option:hover,
+.contact__select option:focus,
+.contact__select option:active,
+.contact__select option:checked {
+  background-color: var(--color-primary) !important;
+  color: #000000 !important;
+}
 
 /* Dropdown Arrow Icon Styling */
 .dropdown-arrow {
@@ -418,31 +430,31 @@
   opacity: 0.8;
 }
 
-/* Select Box Base Styling */
-.contact__select {
-  accent-color: var(--color-primary); /* Form accent color ko button theme se match karta hai */
+/* Layout Utilities for Dynamic Dropdowns */
+.mt-4 {
+  margin-top: 1rem !important;
 }
 
-/* Individual Dropdown Options */
-.contact__select option {
-  background-color: var(--color-bg-secondary);
-  color: var(--color-primary); /* Button theme accent text color */
-  padding: 12px;
-}
-
-/* Option Hover / Active State Override */
-.contact__select option:hover,
-.contact__select option:focus,
-.contact__select option:active,
-.contact__select option:checked {
-  background-color: var(--color-primary) !important; /* Button jaisa main theme background */
-  color: #000000 !important; /* Contrast text color */
+.mt-6 {
+  margin-top: 1.5rem !important;
 }
 
 /* Compact Field Container Limit */
 .contact__field--compact {
-  max-width: 380px; /* Box ka size chota rakhne ke liye */
+  max-width: 380px;
   width: 100%;
+}
+
+/* DatePicker Wrapper Fix */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 /* Input Icon Wrapper Alignment */
@@ -455,8 +467,9 @@
 
 /* Compact Inputs Styling */
 .contact__input--compact {
-  padding: 8px 38px 8px 12px !important; /* Right side icon space */
-  height: 40px; /* Reduced compact height */
+  width: 100%;
+  padding: 8px 38px 8px 12px !important;
+  height: 40px;
   font-size: 0.9rem;
   background-color: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--color-border-subtle);
@@ -471,11 +484,14 @@
   box-shadow: 0 0 10px rgba(74, 222, 128, 0.15);
 }
 
-/* Icon Position and Theme Accent */
+/* Icon Position Inside Field */
 .input-icon {
   position: absolute;
   right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -485,7 +501,7 @@
 
 .input-icon-wrapper:focus-within .input-icon,
 .input-icon-wrapper:hover .input-icon {
-  color: var(--color-primary); /* Focus ya hover par button theme color */
+  color: var(--color-primary);
 }
 
 /* Custom File Button Theme Overrides */
@@ -544,56 +560,32 @@
   background-color: var(--color-primary) !important;
   color: #000 !important;
 }
-/* 1. DatePicker Wrapper Fix (Icon ko field ke andar laane ke liye) */
-.react-datepicker-wrapper {
+/* Custom Dropdown Styling (Dono Region aur Country wrappers ke liye identical sizing) */
+.region-select-wrapper,
+.country-select-wrapper {
+  margin-bottom: var(--space-6);
+  max-width: 420px; /* Dono boxes ka maximum width exact same 420px rahega */
   width: 100%;
 }
 
-.react-datepicker__input-container {
-  width: 100%;
+.dropdown-container {
   position: relative;
-  display: flex;
-  align-items: center;
-}
-
-/* 2. Input Icon Wrapper */
-.input-icon-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
   width: 100%;
 }
 
-/* 3. Input Padding (Text aur Icon overlap na ho) */
-.contact__input--compact {
+.contact__select {
   width: 100%;
-  padding: 8px 38px 8px 12px !important; /* Right side par 38px padding icon ke liye space banati ha */
-  height: 40px;
-  font-size: 0.9rem;
+  height: 48px; /* Dono boxes ki height exact same 48px rahegi */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  padding: 12px 42px 12px 16px;
   background-color: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-md);
-  color: var(--color-text);
-  transition: all var(--transition-base);
-}
-
-/* 4. Icon Position Inside the Field */
-.input-icon {
-  position: absolute;
-  right: 12px; /* Input box ke andar right boundary se 12px door */
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none; /* Click event input field par hi trigger ho */
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   color: var(--color-text-secondary);
-  transition: color var(--transition-base);
-}
-
-/* Focus/Hover par icon theme green highlight hoga */
-.input-icon-wrapper:focus-within .input-icon,
-.input-icon-wrapper:hover .input-icon {
-  color: var(--color-primary);
+  font-weight: 500;
+  accent-color: var(--color-primary);
+  transition: all var(--transition-base);
 }
