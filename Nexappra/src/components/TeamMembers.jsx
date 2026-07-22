@@ -53,7 +53,6 @@ function getAvatarUrl(name) {
   return AVATAR_MAP[name] || '/team/avatar.svg';
 }
 
-// ─── Badge colours per employment type ───────────────────────────────────────
 
 const BADGE_CLASS = {
   Leadership: 'badge-leadership',
@@ -73,7 +72,6 @@ const TEAM_CATEGORIES = [
         name: 'Muhammad Al Yasa Dawood',
         role: 'Co-Founder & Director',
         gender: 'male',
-        type: 'Leadership',
         linkedin: 'https://www.linkedin.com/in/muhammad-al-yasa-dawood-666317286/',
         portfolio: 'https://alyasa62.github.io/',
       },
@@ -81,7 +79,6 @@ const TEAM_CATEGORIES = [
         name: 'Muhammad Usman Khan',
         role: 'Co-Founder',
         gender: 'male',
-        type: 'Leadership',
         linkedin: 'https://www.linkedin.com/in/muhammad-usman-khan-9ba575381',
         github: 'https://github.com/codewithuusman',
       },
@@ -94,7 +91,6 @@ const TEAM_CATEGORIES = [
         name: 'Abdulrahman Nisar',
         role: 'Native Android Developer Intern',
         gender: 'male',
-        type: 'Internship',
         linkedin: 'https://www.linkedin.com/in/abdulrahman-nisar/',
         github: 'https://github.com/abdulrahman-nisar',
       },
@@ -102,7 +98,6 @@ const TEAM_CATEGORIES = [
         name: 'Sabiha Niaz',
         role: 'Native Android Developer Intern',
         gender: 'female',
-        type: 'Internship',
         linkedin: 'https://www.linkedin.com/in/sabiha-niaz-864771383',
         github: 'https://github.com/sabihaniaz7',
       },
@@ -110,7 +105,6 @@ const TEAM_CATEGORIES = [
         name: 'Ifra Malik',
         role: 'Native Android Developer Intern',
         gender: 'female',
-        type: 'Internship',
         linkedin: 'https://www.linkedin.com/in/ifra-malik-09236836a',
         github: 'https://github.com/ifra489',
       },
@@ -139,7 +133,6 @@ const TEAM_CATEGORIES = [
         name: 'Iqra Hussain',
         role: 'Team lead of web developers',
         gender: 'female',
-        type: 'Internship',
         isTeamLead: true,
         linkedin: 'https://www.linkedin.com/in/iqra-hussain-5158222a3',
       },
@@ -147,7 +140,6 @@ const TEAM_CATEGORIES = [
         name: 'Ammad Mahmood',
         role: 'Web Development Intern',
         gender: 'male',
-        type: 'Internship',
         linkedin: 'https://www.linkedin.com/in/ammad-mahmood-a8322a254',
         github: 'https://github.com/Ammad-07',
       },
@@ -155,7 +147,6 @@ const TEAM_CATEGORIES = [
         name: 'Bismah Nasir',
         role: 'Web Development Intern',
         gender: 'female',
-        type: 'Internship',
         linkedin: 'https://www.linkedin.com/in/bismah-nasir',
         github: 'https://github.com/bismah-nasir',
       },
@@ -163,7 +154,6 @@ const TEAM_CATEGORIES = [
         name: 'Hiba Noor',
         role: 'Web Development Intern & Social Media Manager',
         gender: 'female',
-        type: 'Internship',
         linkedin: 'https://www.linkedin.com/in/hiba-noor-247a0936a',
         github: 'https://github.com/Hiba-noor',
       },
@@ -171,7 +161,7 @@ const TEAM_CATEGORIES = [
         name: 'Haseeb Raza',
         role: 'Backend Web Developer',
         gender: 'male',
-        type: 'Internship',
+        type: 'Full Time',
         linkedin: 'https://www.linkedin.com/in/haseebraza4998',
         github: 'https://github.com/Haseebzahid9',
       },
@@ -192,14 +182,14 @@ const TEAM_CATEGORIES = [
         name: 'Muhammad Fakhar',
         role: 'Android Game Developer',
         gender: 'male',
-        type: 'Internship',
+        type: 'Full Time',
         linkedin: 'https://www.linkedin.com/in/muhammad-fakhar-829b3237b',
       },
       {
         name: 'Ali Hassan',
         role: 'Android Game Developer',
         gender: 'male',
-        type: 'Internship',
+        type: 'Full Time',
         linkedin: 'https://www.linkedin.com/in/ali-hassan-6a84b6231',
         github: 'https://github.com/Ali143624',
         photoPosition: '40% 25%',
@@ -208,7 +198,7 @@ const TEAM_CATEGORIES = [
         name: 'Tashfeen Liaquat',
         role: 'Android Game Developer',
         gender: 'male',
-        type: 'Internship',
+        type: 'Full Time',
         linkedin: 'https://smartlnks.com/JgOB',
         github: 'https://github.com/mtashfeen-git',
       },
@@ -229,7 +219,6 @@ const TEAM_CATEGORIES = [
         name: 'Alishba Usman',
         role: 'UI/UX Designer Intern',
         gender: 'female',
-        type: 'Internship',
         linkedin: 'https://www.linkedin.com/in/alishba-usman-71aa65411',
         portfolio: 'https://www.behance.net/alishbausman234',
       },
@@ -242,7 +231,7 @@ const TEAM_CATEGORIES = [
         name: 'Ayesha Ahmad',
         role: 'HR Manager',
         gender: 'female',
-        type: 'Internship',
+        type: 'Full Time',
         linkedin: 'https://www.linkedin.com/in/ayesha-ahmad-6b757b3b5/',
         github: 'https://github.com/ayeshaahmad1609',
       },
@@ -250,7 +239,7 @@ const TEAM_CATEGORIES = [
         name: 'Maleeha Mubeen',
         role: 'HR Associate',
         gender: 'female',
-        type: 'Internship',
+        type: 'Full Time',
         linkedin: 'https://www.linkedin.com/in/maleeha-mubeen-9a4688408',
       },
     ],
@@ -293,9 +282,7 @@ function MemberCard({ member }) {
             onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/team/avatar.svg'; }}
           />
         </div>
-        <span className={`member-type-badge ${BADGE_CLASS[member.type] || ''}`}>
-          {member.type}
-        </span>
+        
       </div>
 
       <div className="member-info">

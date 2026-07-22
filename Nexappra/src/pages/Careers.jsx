@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { staggerReveal } from '../utils/animations';
 import './Pages.css';
+import { Link } from "react-router-dom";
 
 const JOBS = [
   {
@@ -43,7 +44,8 @@ export default function Careers() {
   }, []);
 
   return (
-    <div className="page-transition careers-page" style={{ paddingTop: '100px', minHeight: '100vh' }}>
+    
+<div className="page-transition careers-page" style={{ paddingTop: '120px', paddingBottom: '5rem', minHeight: '100vh' }}>
       <div className="container" ref={containerRef}>
         
         {/* Intro */}
@@ -70,7 +72,10 @@ export default function Careers() {
                   Skills: {job.skills}
                 </div>
               </div>
+              <Link to="/apply">
+              
               <button className="btn btn-primary job-apply-btn">Apply Now</button>
+              </Link>
             </div>
           ))}
         </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './Pricing.css';
 
@@ -60,6 +61,7 @@ const tiers = [
 
 export default function Pricing() {
   const sectionRef = useScrollAnimation();
+  const navigate = useNavigate();
 
   return (
     <section id="pricing" className="section pricing" ref={sectionRef}>
@@ -124,6 +126,7 @@ export default function Pricing() {
                 id={`pricing-cta-${tier.id}`}
                 className={tier.btnClass}
                 type="button"
+                onClick={() => navigate('/contact')}
               >
                 {tier.cta}
               </button>
