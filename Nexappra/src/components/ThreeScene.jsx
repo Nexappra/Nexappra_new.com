@@ -3,7 +3,9 @@ import {
   Scene,
   PerspectiveCamera,
   WebGLRenderer,
-  IcosahedronGeometry,
+  Group,
+  SphereGeometry,
+  CylinderGeometry,
   WireframeGeometry,
   LineSegments,
   LineBasicMaterial,
@@ -38,16 +40,82 @@ export default function ThreeScene() {
     );
     container.appendChild(renderer.domElement);
 
-    /* ---- Wireframe sphere ---- */
-    const icoGeo = new IcosahedronGeometry(2, 1);
-    const wireGeo = new WireframeGeometry(icoGeo);
+    /* ============================================================
+       Wireframe Android bot — built from primitives, same material
+       as the rest of the scene so it reads as one cohesive object.
+       ============================================================ */
     const wireMat = new LineBasicMaterial({
       color: 0x4ade80,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.4,
     });
-    const wireframe = new LineSegments(wireGeo, wireMat);
-    scene.add(wireframe);
+
+    const robot = new Group();
+    const disposables = []; // geometries to dispose on cleanup
+
+    const addPart = (geometry, x = 0, y = 0, z = 0, rz = 0) => {
+      const wireGeo = new WireframeGeometry(geometry);
+      const seg = new LineSegments(wireGeo, wireMat);
+      seg.position.set(x, y, z);
+      seg.rotation.z = rz;
+      robot.add(seg);
+      disposables.push(geometry, wireGeo);
+      return seg;
+    };
+
+    const s = 1.7; // overall scale, tuned to match old icosahedron footprint
+
+    // Body (rounded capsule-ish cylinder)
+    const bodyHeight = 1.15 * s;
+    const bodyTopR = 0.42 * s;
+    const bodyBotR = 0.52 * s;
+    addPart(new CylinderGeometry(bodyTopR, bodyBotR, bodyHeight, 12), 0, 0, 0);
+
+    // Head (dome)
+    const headR = 0.5 * s;
+    const headY = bodyHeight / 2 + headR * 0.75;
+    addPart(
+      new SphereGeometry(headR, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.58),
+      0,
+      headY,
+      0,
+    );
+
+    // Antennae
+    const antennaLen = 0.4 * s;
+    const antennaR = 0.035 * s;
+    const antennaY = headY + headR * 0.85;
+    addPart(
+      new CylinderGeometry(antennaR, antennaR, antennaLen, 6),
+      -headR * 0.42,
+      antennaY + antennaLen * 0.4,
+      0,
+      0.5,
+    );
+    addPart(
+      new CylinderGeometry(antennaR, antennaR, antennaLen, 6),
+      headR * 0.42,
+      antennaY + antennaLen * 0.4,
+      0,
+      -0.5,
+    );
+
+    // Arms (straight stubs, classic Android silhouette)
+    const armR = 0.14 * s;
+    const armLen = 0.95 * s;
+    const armX = bodyTopR + armR + 0.05 * s;
+    addPart(new CylinderGeometry(armR, armR, armLen, 8), -armX, 0.1 * s, 0);
+    addPart(new CylinderGeometry(armR, armR, armLen, 8), armX, 0.1 * s, 0);
+
+    // Legs
+    const legR = 0.16 * s;
+    const legLen = 0.55 * s;
+    const legX = bodyBotR * 0.45;
+    const legY = -bodyHeight / 2 - legLen / 2;
+    addPart(new CylinderGeometry(legR, legR, legLen, 8), -legX, legY, 0);
+    addPart(new CylinderGeometry(legR, legR, legLen, 8), legX, legY, 0);
+
+    scene.add(robot);
 
     /* ---- Particles (reduced for performance) ---- */
     const particleCount = isMobile ? 200 : 350;
@@ -112,16 +180,15 @@ export default function ThreeScene() {
       if (!isVisible) return;
 
       // Ambient rotation
-      wireframe.rotation.x += 0.001;
-      wireframe.rotation.y += 0.002;
+      robot.rotation.y += 0.003;
       particles.rotation.x += 0.0003;
       particles.rotation.y += 0.0005;
 
       // Mouse tilt (smooth lerp)
-      const targetX = mouse.y * 0.3;
-      const targetY = mouse.x * 0.3;
-      wireframe.rotation.x += (targetX - wireframe.rotation.x) * 0.02;
-      wireframe.rotation.y += (targetY - wireframe.rotation.y) * 0.02;
+      const targetX = mouse.y * 0.25;
+      const targetY = mouse.x * 0.35;
+      robot.rotation.x += (targetX - robot.rotation.x) * 0.02;
+      robot.rotation.y += (targetY - robot.rotation.y) * 0.02;
 
       renderer.render(scene, camera);
     };
@@ -134,8 +201,7 @@ export default function ThreeScene() {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", onResize);
 
-      wireGeo.dispose();
-      icoGeo.dispose();
+      disposables.forEach((geo) => geo.dispose());
       wireMat.dispose();
       particleGeo.dispose();
       particleMat.dispose();
