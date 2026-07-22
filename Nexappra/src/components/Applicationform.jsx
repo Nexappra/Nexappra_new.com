@@ -35,14 +35,7 @@ export default function ApplicationForm() {
     if (!formData.contact.trim())
       newErrors.contact = "Contact Number is required";
 
-    if (!formData.experience.trim())
-      newErrors.experience = "Experience is required";
-
-    if (!formData.skills.trim())
-      newErrors.skills = "Skills are required";
-
-    if (!formData.position)
-      newErrors.position = "Select a position";
+    
 
     if (!formData.cv)
       newErrors.cv = "Please upload your CV";
@@ -52,14 +45,21 @@ export default function ApplicationForm() {
     return Object.keys(newErrors).length === 0;
   };
 
+ 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (validate()) {
-      alert("Application Submitted Successfully!");
-      console.log(formData);
-    }
-  };
+  if (!validate()) return;
+
+  const confirmed = window.confirm(
+    "Are you sure you want to submit your application?"
+  );
+
+  if (!confirmed) return;
+
+  alert("Application Submitted Successfully!");
+  console.log(formData);
+};
 
   return (
     <div className={styles.applicationPage}>
@@ -101,45 +101,39 @@ export default function ApplicationForm() {
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Experience *</label>
+            <label>Experience </label>
             <input
               type="text"
               name="experience"
               onChange={handleChange}
+              placeholder="e.g. 2 Years"
             />
-            <span className={styles.error}>{errors.experience}</span>
+            
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Skills *</label>
+            <label>Skills </label>
             <textarea
               rows="4"
               name="skills"
               onChange={handleChange}
+              placeholder="e.g. React, JavaScript, CSS3"
             />
-            <span className={styles.error}>{errors.skills}</span>
+            
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Position *</label>
+            <label>Position </label>
 
-            <select
-              name="position"
-              defaultValue=""
-              onChange={handleChange}
-            >
-              <option value="" disabled>
-                Select Position
-              </option>
-
-              <option>Frontend Developer</option>
-              <option>Backend Developer</option>
-              <option>UI/UX Designer</option>
-              <option>Graphic Designer</option>
-              <option>Intern</option>
-            </select>
-
-            <span className={styles.error}>{errors.position}</span>
+           
+            <input type="text" 
+            id="position" 
+            name="position" 
+            onChange={handleChange}
+            placeholder="Enter the position you are applying for" required/>
+            
+             
+            
           </div>
 
           <div className={styles.inputGroup}>
