@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import useScrollAnimation from '../hooks/useScrollAnimation';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import './Contact.css';
 
 const PROJECT_TYPES = [
@@ -7,14 +9,25 @@ const PROJECT_TYPES = [
   { id: 'mobile-app', title: 'Mobile App', desc: 'iOS & Android applications', icon: '📱' },
   { id: 'ai-solution', title: 'AI Solution', desc: 'Machine learning & AI integrations', icon: '🤖' },
   { id: 'saas', title: 'SaaS Product', desc: 'Scalable software as a service', icon: '☁️' },
+  { id: 'ui-ux', title: 'UI/UX Design', desc: 'User-centric wireframes, prototypes & interfaces', icon: '🎨' },
+  { id: 'game-dev', title: 'Game Development', desc: 'Immersive 2D/3D mobile & cross-platform games', icon: '🎮' },
+  { id: 'cyber-security', title: 'Cyber Security', desc: 'Robust vulnerability testing & threat protection', icon: '🛡️' },
 ];
 
-const BUDGETS = [
-  { id: '5k-10k', title: '$5k - $10k', desc: 'MVP or small projects' },
-  { id: '10k-25k', title: '$10k - $25k', desc: 'Standard business applications' },
-  { id: '25k-50k', title: '$25k - $50k', desc: 'Complex platforms' },
-  { id: '50k+', title: '$50k+', desc: 'Enterprise solutions' },
-];
+const REGIONAL_BUDGETS = {
+  asia: [
+    { id: '1k-3k', title: '$1k - $3k', desc: 'MVP or small projects' },
+    { id: '3k-8k', title: '$3k - $8k', desc: 'Standard business applications' },
+    { id: '8k-15k', title: '$8k - $15k', desc: 'Complex platforms' },
+    { id: '15k+', title: '$15k+', desc: 'Enterprise solutions' },
+  ],
+  europe: [
+    { id: '5k-10k', title: '$5k - $10k', desc: 'MVP or small projects' },
+    { id: '10k-25k', title: '$10k - $25k', desc: 'Standard business applications' },
+    { id: '25k-50k', title: '$25k - $50k', desc: 'Complex platforms' },
+    { id: '50k+', title: '$50k+', desc: 'Enterprise solutions' },
+  ]
+};
 
 const initialForm = {
   projectType: '',
@@ -70,45 +83,166 @@ export default function Contact() {
             </div>
           </div>
         );
-      case 2:
-        return (
-          <div className="onboarding__step-panel">
-            <h3 className="step-title">What is your estimated budget?</h3>
-            <p className="step-subtitle">This helps us propose the best solution for your resources.</p>
-            <div className="options-grid">
-              {BUDGETS.map((b) => (
-                <div
-                  key={b.id}
-                  className={`option-card ${form.budget === b.id ? 'selected' : ''}`}
-                  onClick={() => handleSelect('budget', b.id)}
-                >
-                  <h4 className="option-title">{b.title}</h4>
-                  <p className="option-desc">{b.desc}</p>
-                </div>
-              ))}
-            </div>
+      case 2: {
+  const currentRegion = form.region;
+  const availableBudgets = currentRegion ? REGIONAL_BUDGETS[currentRegion] : null;
+
+  return (
+    <div className="onboarding__step-panel">
+      <h3 className="step-title">What is your estimated budget?</h3>
+      <p className="step-subtitle">This helps us propose the best solution for your resources.</p>
+      
+      {/* 🌐 Region Selection Dropdown */}
+      <div className="contact__field region-select-wrapper">
+        <label htmlFor="country-region" className="contact__label">
+          Select Your Region / Country
+        </label>
+        
+        <div className="dropdown-container">
+          <select
+            id="country-region"
+            name="region"
+            className={`contact__input contact__select ${form.region ? 'selected' : ''}`}
+            value={form.region || ''} 
+            onChange={(e) => {
+              handleSelect('region', e.target.value);
+              handleSelect('budget', '');
+            }}
+            required
+          >
+            <option value="" disabled className="select-option placeholder">
+              -- Select Country/Region --
+            </option>
+            <option value="europe" className="select-option">
+              Europe / North America / Other
+            </option>
+            <option value="asia" className="select-option">
+              Asia / Africa
+            </option>
+          </select>
+
+          {/* 🔻 Custom Arrow Icon */}
+          <div className="dropdown-arrow">
+            <svg width="12" height="7" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L7 7L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
-        );
+        </div>
+      </div>
+
+      {/* 💰 Dynamic Options Grid */}
+      {currentRegion ? (
+        <div className="options-grid">
+          {availableBudgets.map((b) => (
+            <div
+              key={b.id}
+              className={`option-card ${form.budget === b.id ? 'selected' : ''}`}
+              onClick={() => handleSelect('budget', b.id)}
+            >
+              <h4 className="option-title">{b.title}</h4>
+              <p className="option-desc">{b.desc}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="region-prompt-box">
+          <p className="step-subtitle">
+            Please select your region first to view customized pricing options.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
       case 3:
-        return (
-          <div className="onboarding__step-panel">
-            <h3 className="step-title">Tell us more about the project</h3>
-            <p className="step-subtitle">Provide any specific requirements, features, or references.</p>
-            <div className="form-grid">
-              <div className="contact__field">
-                <label htmlFor="contact-message" className="contact__label">Project Details</label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  className="contact__input contact__textarea"
-                  placeholder="Describe your vision, target audience, and key features..."
-                  value={form.message}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+       const today = new Date().toISOString().split('T')[0];
+
+return (
+  <div className="onboarding__step-panel">
+    <h3 className="step-title">Tell us more about the project</h3>
+    <p className="step-subtitle">Provide any specific requirements, features, or references.</p>
+    
+    <div className="form-grid">
+      {/* Project Details Textarea */}
+      <div className="contact__field">
+        <label htmlFor="contact-message" className="contact__label">Project Details</label>
+        <textarea
+          id="contact-message"
+          name="message"
+          className="contact__input contact__textarea"
+          placeholder="Describe your vision, target audience, and key features..."
+          value={form.message}
+          onChange={handleChange}
+        />
+      </div>
+
+      {/* 📅 Compact Date Picker with Icon */}
+      <div className="contact__field contact__field--compact">
+        <label className="contact__label">Desired Deadline</label>
+        <div className="input-icon-wrapper">
+          <DatePicker
+            selected={form.deadline ? new Date(form.deadline) : null}
+            onChange={(date) => {
+              handleChange({
+                target: {
+                  name: 'deadline',
+                  value: date ? date.toISOString().split('T')[0] : ''
+                }
+              });
+            }}
+            minDate={new Date()} 
+            dateFormat="yyyy-MM-dd"
+            placeholderText="Select a deadline"
+            className="contact__input contact__input--compact" 
+            required
+          />
+          {/* Calendar Icon */}
+          <div className="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
           </div>
-        );
+        </div>
+      </div>
+
+      {/* 📁 Compact File Attachment Input */}
+      <div className="contact__field contact__field--compact">
+        <label htmlFor="project-files" className="contact__label">
+          Attach Project References
+        </label>
+        <div className="input-icon-wrapper">
+          <input
+            type="file"
+            id="project-files"
+            name="file"
+            accept=".pdf,.doc,.docx,.png,.jpg,.zip" 
+            className="contact__input contact__input--compact contact__file-input"
+            onChange={(e) => {
+              if (e.target.files) {
+                handleChange({
+                  target: {
+                    name: 'file',
+                    value: e.target.files[0]
+                  }
+                });
+              }
+            }}
+          />
+          {/* Attachment Icon */}
+          <div className="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+            </svg>
+          </div>
+        </div>
+        <span className="file-hint">Allowed formats: PDF, DOC, PNG, JPG, ZIP</span>
+      </div>
+    </div>
+  </div>
+);
       case 4:
         return (
           <div className="onboarding__step-panel">
@@ -141,6 +275,37 @@ export default function Contact() {
                   required
                 />
               </div>
+               <div className="contact__field">
+  <label htmlFor="Phone-No" className="contact__label">Phone No</label>
+  <input
+    type="tel"
+    id="Phone-No"
+    name="phone"
+    className="contact__input"
+    placeholder="+923001234567"
+    value={form.phone} 
+    onChange={handleChange}
+    required
+  />
+</div>
+<div className="contact__field">
+  <label htmlFor="how-heard" className="contact__label">How did you hear about us?</label>
+  <select
+    id="how-heard"
+    name="howHeard"
+    className="contact__input" 
+    style={{ appearance: 'auto' }} 
+    onChange={handleChange}
+    required
+  >
+    <option value="" disabled>Select an option</option>
+    <option value="social-media">Social Media (LinkedIn, Facebook, Instagram)</option>
+    <option value="search-engine">Search Engine (Google, Bing)</option>
+    <option value="friend-colleague">Friend / Colleague Recommendation</option>
+    <option value="clutch-upwork">Freelance Platforms (Upwork, Clutch)</option>
+    <option value="other">Other</option>
+  </select>
+</div>
             </div>
           </div>
         );

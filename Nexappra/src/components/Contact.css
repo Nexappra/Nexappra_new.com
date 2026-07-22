@@ -342,3 +342,258 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Custom Dropdown Styling */
+.region-select-wrapper {
+  margin-bottom: var(--space-6);
+  max-width: 420px;
+}
+
+.dropdown-container {
+  position: relative;
+  width: 100%;
+}
+
+.contact__select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  padding-right: 42px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+/* Jab region select ho jaye tab accent color highlight hogo */
+.contact__select.selected {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.15);
+}
+
+/* Options dropdown menu list styling */
+.contact__select option {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text);
+  padding: 12px;
+}
+
+.contact__select option.placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+}
+
+
+/* Dropdown Arrow Icon Styling */
+.dropdown-arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-base);
+}
+
+.contact__select.selected + .dropdown-arrow {
+  color: var(--color-primary);
+}
+
+/* Placeholder State Box */
+.region-prompt-box {
+  margin-top: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-bg-glass);
+  border: 1px dashed var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.region-prompt-box .step-subtitle {
+  margin-bottom: 0;
+  opacity: 0.8;
+}
+
+/* Select Box Base Styling */
+.contact__select {
+  accent-color: var(--color-primary); /* Form accent color ko button theme se match karta hai */
+}
+
+/* Individual Dropdown Options */
+.contact__select option {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-primary); /* Button theme accent text color */
+  padding: 12px;
+}
+
+/* Option Hover / Active State Override */
+.contact__select option:hover,
+.contact__select option:focus,
+.contact__select option:active,
+.contact__select option:checked {
+  background-color: var(--color-primary) !important; /* Button jaisa main theme background */
+  color: #000000 !important; /* Contrast text color */
+}
+
+/* Compact Field Container Limit */
+.contact__field--compact {
+  max-width: 380px; /* Box ka size chota rakhne ke liye */
+  width: 100%;
+}
+
+/* Input Icon Wrapper Alignment */
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Compact Inputs Styling */
+.contact__input--compact {
+  padding: 8px 38px 8px 12px !important; /* Right side icon space */
+  height: 40px; /* Reduced compact height */
+  font-size: 0.9rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  transition: all var(--transition-base);
+}
+
+.contact__input--compact:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.15);
+}
+
+/* Icon Position and Theme Accent */
+.input-icon {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-base);
+}
+
+.input-icon-wrapper:focus-within .input-icon,
+.input-icon-wrapper:hover .input-icon {
+  color: var(--color-primary); /* Focus ya hover par button theme color */
+}
+
+/* Custom File Button Theme Overrides */
+.contact__file-input::-webkit-file-upload-button {
+  background: var(--color-primary);
+  color: #000000;
+  border: none;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: opacity var(--transition-base);
+}
+
+.contact__file-input::-webkit-file-upload-button:hover {
+  opacity: 0.85;
+}
+
+/* File Hint Text matching theme */
+.file-hint {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+/* React DatePicker popup calendar background theme match */
+.react-datepicker {
+  background-color: var(--color-bg-secondary) !important;
+  border: 1px solid var(--color-border-subtle) !important;
+  color: var(--color-text) !important;
+  font-family: inherit !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.react-datepicker__header {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border-bottom: 1px solid var(--color-border-subtle) !important;
+}
+
+.react-datepicker__current-month, 
+.react-datepicker__day-name,
+.react-datepicker__day {
+  color: var(--color-text) !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: var(--color-primary) !important;
+  color: #000 !important;
+}
+
+.react-datepicker__day--selected {
+  background-color: var(--color-primary) !important;
+  color: #000 !important;
+}
+/* 1. DatePicker Wrapper Fix (Icon ko field ke andar laane ke liye) */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* 2. Input Icon Wrapper */
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* 3. Input Padding (Text aur Icon overlap na ho) */
+.contact__input--compact {
+  width: 100%;
+  padding: 8px 38px 8px 12px !important; /* Right side par 38px padding icon ke liye space banati ha */
+  height: 40px;
+  font-size: 0.9rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  transition: all var(--transition-base);
+}
+
+/* 4. Icon Position Inside the Field */
+.input-icon {
+  position: absolute;
+  right: 12px; /* Input box ke andar right boundary se 12px door */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* Click event input field par hi trigger ho */
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-base);
+}
+
+/* Focus/Hover par icon theme green highlight hoga */
+.input-icon-wrapper:focus-within .input-icon,
+.input-icon-wrapper:hover .input-icon {
+  color: var(--color-primary);
+}
