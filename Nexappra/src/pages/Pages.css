@@ -2,6 +2,18 @@
    PAGES STYLES (About, Careers)
    ============================================================ */
 
+/* 🎯 Header Overlapping Fix */
+.about-page {
+  padding-top: 120px; /* Navbar height ke mutabiq content ko neeche push karega */
+}
+
+/* Screen size choti hone par padding adjust karne ke liye */
+@media (max-width: 768px) {
+  .about-page {
+    padding-top: 90px;
+  }
+}
+
 /* Page Transition Wrapper */
 .page-transition {
   animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
