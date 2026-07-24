@@ -31,32 +31,36 @@ function PortfolioIcon() {
 
 // ─── Avatar ───────────────────────────────────────────────────────────────────
 
-// Local AI-generated portraits stored in /public/team/
-// Each member is locked to a specific file so the face never changes
 const AVATAR_MAP = {
-  'Muhammad Al Yasa Dawood':  '/team/male/m1.jpg',
-  'Muhammad Usman Khan':       '/team/male/m2.jpg',
-  'Abdulrahman Nisar':         '/team/male/m3.jpg',
-  'Ammad Mahmood':             '/team/male/m4.jpg',
-  'Haseeb Raza':               '/team/male/m5.jpg',
-  'Muhammad Fakhar':           '/team/male/m6.jpg',
-  'Ali Hassan':                '/team/male/m7.jpg',
-  'Tashfeen Liaquat':          '/team/male/m8.jpg',
-  'Sabiha Niaz':               '/team/female/f1.jpg',
-  'Ifra Malik':                '/team/female/f2.jpg',
-  'Iqra Hussain':              '/team/female/f3.jpg',
-  'Bismah Nasir':              '/team/female/f4.jpg',
-  'Hiba Noor':                 '/team/female/f5.jpg',
-  'Alishba Usman':             '/team/female/f6.jpg',
-  'Ayesha Ahmad':              '/team/female/f7.jpg',
-  'Maleeha Mubeen':            '/team/female/f8.jpg',
+  'Abdulrahman Nisar':       '/team/abdulrahman-nisar.jpg',
+  'Ali Hassan':              '/team/ali-hassan.jpg',
+  'Ammad Mahmood':           '/team/ammad-mahmood.jpg',
+  'Ayesha Ahmad':            '/team/ayesha-ahmad.jpg',
+  'Bismah Nasir':            '/team/bismah-nasir.jpg',
+  'Haseeb Raza':             '/team/haseeb-raza.jpg',
+  'Hiba Noor':               '/team/hiba-noor.jpg',
+  'Iqra Hussain':            '/team/iqra-hussain.jpg',
+  'M Talha Younis':          '/team/m-talha-younis.jpg',
+  'Maleeha Mubeen':          '/team/maleeha-mubeen.jpg',
+  'Muhammad Fakhar':         '/team/muhammad-fakhar.jpg',
+  'Muhammad Umair':          '/team/muhammad-umair.jpg',
+  'Nouman Arif':             '/team/nouman-arif.jpg',
+  'Syeda Ghania Shahzad':    '/team/syeda-ghania-shahzad.jpg',
+  'Tashfeen Liaquat':        '/team/tashfeen-liaquat.jpg',
 };
 
 function getAvatarUrl(name) {
-  return AVATAR_MAP[name] || '/team/male/m1.jpg';
+  return AVATAR_MAP[name] || '/team/avatar.svg';
 }
 
 
+const BADGE_CLASS = {
+  Leadership: 'badge-leadership',
+  'Full Time': 'badge-full-time',
+  'Part Time': 'badge-part-time',
+  Internship: 'badge-internship',
+  Ambassador: 'badge-ambassador',
+};
 
 // ─── Team data ────────────────────────────────────────────────────────────────
 
@@ -68,6 +72,7 @@ const TEAM_CATEGORIES = [
         name: 'Muhammad Al Yasa Dawood',
         role: 'Co-Founder & Director',
         gender: 'male',
+        type: 'Leadership',
         linkedin: 'https://www.linkedin.com/in/muhammad-al-yasa-dawood-666317286/',
         portfolio: 'https://alyasa62.github.io/',
       },
@@ -75,6 +80,7 @@ const TEAM_CATEGORIES = [
         name: 'Muhammad Usman Khan',
         role: 'Co-Founder',
         gender: 'male',
+        type: 'Leadership',
         linkedin: 'https://www.linkedin.com/in/muhammad-usman-khan-9ba575381',
         github: 'https://github.com/codewithuusman',
       },
@@ -104,6 +110,22 @@ const TEAM_CATEGORIES = [
         linkedin: 'https://www.linkedin.com/in/ifra-malik-09236836a',
         github: 'https://github.com/ifra489',
       },
+      {
+        name: 'Syeda Ghania Shahzad',
+        role: 'Native Android Intern',
+        gender: 'female',
+        type: 'Internship',
+        linkedin: 'https://www.linkedin.com/in/ghania-shahzad-531710287',
+        github: 'https://github.com/ghaniashahzad01',
+      },
+      {
+        name: 'Muhammad Umair',
+        role: 'Native Android Intern',
+        gender: 'male',
+        type: 'Internship',
+        linkedin: 'https://www.linkedin.com/in/muhammad-umair-9523ba347',
+        github: 'https://github.com/umaircoder123',
+      },
     ],
   },
   {
@@ -111,14 +133,14 @@ const TEAM_CATEGORIES = [
     members: [
       {
         name: 'Iqra Hussain',
-        role: 'Web Development Intern',
+        role: 'Team lead of web developers',
         gender: 'female',
         isTeamLead: true,
         linkedin: 'https://www.linkedin.com/in/iqra-hussain-5158222a3',
       },
       {
         name: 'Ammad Mahmood',
-        role: 'Web Development Intern',
+        role: 'Frontend Developer',
         gender: 'male',
         linkedin: 'https://www.linkedin.com/in/ammad-mahmood-a8322a254',
         github: 'https://github.com/Ammad-07',
@@ -141,8 +163,17 @@ const TEAM_CATEGORIES = [
         name: 'Haseeb Raza',
         role: 'Backend Web Developer',
         gender: 'male',
+        type: 'Full Time',
         linkedin: 'https://www.linkedin.com/in/haseebraza4998',
         github: 'https://github.com/Haseebzahid9',
+      },
+      {
+        name: 'M Talha Younis',
+        role: 'Frontend Developer Intern',
+        gender: 'male',
+        type: 'Internship',
+        linkedin: 'https://www.linkedin.com/in/talha-younis-b082113a9',
+        github: 'https://github.com/talhayounis3006',
       },
     ],
   },
@@ -153,21 +184,33 @@ const TEAM_CATEGORIES = [
         name: 'Muhammad Fakhar',
         role: 'Android Game Developer',
         gender: 'male',
+        type: 'Full Time',
         linkedin: 'https://www.linkedin.com/in/muhammad-fakhar-829b3237b',
       },
       {
         name: 'Ali Hassan',
         role: 'Android Game Developer',
         gender: 'male',
+        type: 'Full Time',
         linkedin: 'https://www.linkedin.com/in/ali-hassan-6a84b6231',
         github: 'https://github.com/Ali143624',
+        photoPosition: '40% 25%',
       },
       {
         name: 'Tashfeen Liaquat',
         role: 'Android Game Developer',
         gender: 'male',
+        type: 'Full Time',
         linkedin: 'https://smartlnks.com/JgOB',
         github: 'https://github.com/mtashfeen-git',
+      },
+      {
+        name: 'Nouman Arif',
+        role: 'Android Game Developer',
+        gender: 'male',
+        type: 'Internship',
+        linkedin: 'https://www.linkedin.com/in/nouman-arif-197a30316/',
+        github: 'https://github.com/Nomix95',
       },
     ],
   },
@@ -190,6 +233,7 @@ const TEAM_CATEGORIES = [
         name: 'Ayesha Ahmad',
         role: 'HR Manager',
         gender: 'female',
+        type: 'Full Time',
         linkedin: 'https://www.linkedin.com/in/ayesha-ahmad-6b757b3b5/',
         github: 'https://github.com/ayeshaahmad1609',
       },
@@ -197,7 +241,29 @@ const TEAM_CATEGORIES = [
         name: 'Maleeha Mubeen',
         role: 'HR Associate',
         gender: 'female',
+        type: 'Full Time',
         linkedin: 'https://www.linkedin.com/in/maleeha-mubeen-9a4688408',
+      },
+    ],
+  },
+  {
+    category: 'Campus Ambassadors',
+    members: [
+      {
+        name: 'Omar Farooq',
+        role: 'Campus Ambassador — FAST NUCES Lahore',
+        gender: 'male',
+        type: 'Ambassador',
+        linkedin: 'https://www.linkedin.com/in/omar-farooq-demo',
+        github: 'https://github.com/omar-farooq-demo',
+      },
+      {
+        name: 'Zara Siddiqui',
+        role: 'Campus Ambassador — COMSATS Islamabad',
+        gender: 'female',
+        type: 'Ambassador',
+        linkedin: 'https://www.linkedin.com/in/zara-siddiqui-demo',
+        github: 'https://github.com/zara-siddiqui-demo',
       },
     ],
   },
@@ -214,15 +280,24 @@ function MemberCard({ member }) {
             src={getAvatarUrl(member.name)}
             alt={member.name}
             className="member-photo"
+            style={member.photoPosition ? { objectPosition: member.photoPosition } : undefined}
+            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/team/avatar.svg'; }}
           />
         </div>
-        
+        {member.type === 'Leadership' && (
+          <span className="member-type-badge badge-leadership">Leader</span>
+        )}
+        {member.isTeamLead && (
+          <span className="member-type-badge badge-full-time">Team Lead</span>
+        )}
+        {member.type === 'Ambassador' && (
+          <span className="member-type-badge badge-ambassador">Ambassador</span>
+        )}
       </div>
 
       <div className="member-info">
         <h4 className="member-name">
           {member.name}
-          {member.isTeamLead && <span className="team-lead-tag">Team Lead</span>}
         </h4>
         <p className="member-role text-gradient">{member.role}</p>
 

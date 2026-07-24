@@ -215,6 +215,8 @@ input, textarea {
   color: var(--color-text-secondary);
   max-width: 600px;
   line-height: 1.7;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .text-gradient {
