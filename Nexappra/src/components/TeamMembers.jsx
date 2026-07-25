@@ -65,7 +65,6 @@ const AVATAR_MAP = {
   "Maleeha Mubeen": "/team/maleeha-mubeen.jpg",
   "Muhammad Fakhar": "/team/muhammad-fakhar.jpg",
   "Muhammad Umair": "/team/muhammad-umair.jpg",
-  "Nouman Arif": "/team/nouman-arif.jpg",
   "Syeda Ghania Shahzad": "/team/syeda-ghania-shahzad.jpg",
   "Tashfeen Liaquat": "/team/tashfeen-liaquat.jpg",
 };
@@ -225,14 +224,6 @@ const TEAM_CATEGORIES = [
         linkedin: "https://smartlnks.com/JgOB",
         github: "https://github.com/mtashfeen-git",
       },
-      {
-        name: "Nouman Arif",
-        role: "Android Game Developer intern",
-        gender: "male",
-        type: "Internship",
-        linkedin: "https://www.linkedin.com/in/nouman-arif-197a30316/",
-        github: "https://github.com/Nomix95",
-      },
     ],
   },
   {
@@ -252,15 +243,15 @@ const TEAM_CATEGORIES = [
     members: [
       {
         name: "Ayesha Ahmad",
-        role: "HR Manager",
+        role: "HR Internee",
         gender: "female",
-        type: "Full Time",
+        type: "Internship",
         linkedin: "https://www.linkedin.com/in/ayesha-ahmad-6b757b3b5/",
         github: "https://github.com/ayeshaahmad1609",
       },
       {
         name: "Maleeha Mubeen",
-        role: "HR Associate",
+        role: "HR Executive",
         gender: "female",
         type: "Full Time",
         linkedin: "https://www.linkedin.com/in/maleeha-mubeen-9a4688408",
