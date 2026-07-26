@@ -1,6 +1,10 @@
 import useScrollAnimation from '../hooks/useScrollAnimation';
 import './CaseStudies.css';
 
+import drawingThoughtsImg from '../assets/projects/drawing-thoughts.png';
+import expenseTrackerImg from '../assets/projects/expense-tracker.jpg';
+import unimatchImg from '../assets/projects/unimatch.png';
+
 const projects = [
   {
     id: 'project-drawing-thoughts',
@@ -10,7 +14,7 @@ const projects = [
     solution: 'Built a feature-rich drawing app with customizable brushes, colors, mind maps, and organizational tools',
     result: '5,000+ downloads on Google Play with 4.5★ rating',
     tags: ['Android', 'Kotlin', 'Canvas API'],
-    image: '/src/assets/projects/drawing-thoughts.png',
+    image: drawingThoughtsImg,
     gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
     accent: '#4ade80',
   },
@@ -22,7 +26,7 @@ const projects = [
     solution: 'Developed a clean finance app with dashboard overview, expense tracking, budget management, and smart analytics',
     result: '5.0★ rating on Google Play with 1,000+ active users',
     tags: ['Android', 'Kotlin', 'MPAndroidChart', 'Room DB'],
-    image: '/src/assets/projects/expense-tracker.jpg',
+    image: expenseTrackerImg,
     gradient: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
     accent: '#06b6d4',
   },
@@ -34,7 +38,7 @@ const projects = [
     solution: 'Created an AI-powered educational counselor with psychometric assessments to recommend best-fit universities and career paths',
     result: 'Featured on Google Play with growing user base across Pakistan',
     tags: ['Android', 'AI/ML', 'Psychometrics', 'Firebase'],
-    image: '/src/assets/projects/unimatch.png',
+    image: unimatchImg,
     gradient: 'linear-gradient(135deg, #0d0d1a 0%, #1a0d2e 50%, #2d1b69 100%)',
     accent: '#a78bfa',
   },

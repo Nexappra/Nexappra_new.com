@@ -125,7 +125,7 @@ const TEAM_CATEGORIES = [
       },
       {
         name: "Ifra Malik",
-        role: "Native Android Developer Intern",
+        role: "Native Android Developer",
         gender: "female",
         linkedin: "https://www.linkedin.com/in/ifra-malik-09236836a",
         github: "https://github.com/ifra489",
@@ -174,7 +174,7 @@ const TEAM_CATEGORIES = [
       },
       {
         name: "Hiba Noor",
-        role: "Web Development Intern & Social Media Manager",
+        role: "Web Development & Social Media Manager",
         gender: "female",
         linkedin: "https://www.linkedin.com/in/hiba-noor-247a0936a",
         github: "https://github.com/Hiba-noor",

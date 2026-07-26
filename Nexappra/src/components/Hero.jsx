@@ -38,10 +38,6 @@ export default function Hero() {
       <div className="hero__overlay" aria-hidden="true" />
 
       <div className="hero__content">
-        <div className="hero__badge" id="hero-badge">
-          <span className="hero__badge-dot" aria-hidden="true" />
-          🚀 Now accepting new projects for 2026
-        </div>
 
         <span className="hero__label" id="hero-label">
           Build. Innovate. Scale.
