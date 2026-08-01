@@ -10,6 +10,12 @@ export default function CustomCursor() {
   const isHovering = useRef(false);
   const isClicking = useRef(false);
 
+  const updateCursorPosition = (element, x, y) => {
+    if (element) {
+      element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    }
+  };
+
   /* Check if device supports hover */
   const isTouchDevice = useCallback(() => {
     return window.matchMedia('(hover: none)').matches || 
@@ -31,8 +37,11 @@ export default function CustomCursor() {
 
     const onMouseMove = (e) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
-      dot.style.left = `${e.clientX}px`;
-      dot.style.top = `${e.clientY}px`;
+      updateCursorPosition(dot, e.clientX, e.clientY);
+      if (ringPos.current.x === -100 && ringPos.current.y === -100) {
+        ringPos.current = { x: e.clientX, y: e.clientY };
+        updateCursorPosition(ring, e.clientX, e.clientY);
+      }
     };
 
     const onMouseOver = (e) => {
@@ -65,12 +74,11 @@ export default function CustomCursor() {
 
     /* Lerp the ring position for a smooth trailing effect */
     const animateRing = () => {
-      const lerp = 0.15;
+      const lerp = 0.28;
       ringPos.current.x += (mousePos.current.x - ringPos.current.x) * lerp;
       ringPos.current.y += (mousePos.current.y - ringPos.current.y) * lerp;
 
-      ring.style.left = `${ringPos.current.x}px`;
-      ring.style.top = `${ringPos.current.y}px`;
+      updateCursorPosition(ring, ringPos.current.x, ringPos.current.y);
 
       rafId.current = requestAnimationFrame(animateRing);
     };
