@@ -87,12 +87,25 @@
 
 /* Active step */
 .process__step--active .process__icon-wrapper {
+  position: relative;
   border-color: var(--color-primary);
-  background: var(--color-primary-subtle);
+  background: var(--color-bg);
   box-shadow: 0 0 20px var(--color-primary-glow);
+  overflow: hidden;
+}
+
+.process__step--active .process__icon-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(74, 222, 128, 0.12);
+  pointer-events: none;
 }
 
 .process__step--active .process__icon {
+  position: relative;
+  z-index: 2;
   color: var(--color-primary);
 }
 
