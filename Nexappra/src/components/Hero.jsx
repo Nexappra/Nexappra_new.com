@@ -34,14 +34,15 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="hero container" id="home" ref={sectionRef}>
+    <section className="hero" id="home" ref={sectionRef}>
       <div className="hero__overlay" aria-hidden="true" />
 
-      <div className="hero__content">
+      <div className="container hero__inner">
+        <div className="hero__content">
 
-        <span className="hero__label" id="hero-label">
-          Build. Innovate. Scale.
-        </span>
+          <span className="hero__label" id="hero-label">
+            Build. Innovate. Scale.
+          </span>
 
         <h1 className="hero__headline" id="hero-headline">
           We Build Scalable
@@ -80,12 +81,13 @@ export default function Hero() {
           <span className="hero__trust-dot" aria-hidden="true" />
           Trusted by 20+ businesses worldwide
         </p>
-      </div>
+        </div>
 
-      <div className="hero__visual" id="hero-visual">
-        <Suspense fallback={null}>
-          <ThreeScene />
-        </Suspense>
+        <div className="hero__visual" id="hero-visual">
+          <Suspense fallback={null}>
+            <ThreeScene />
+          </Suspense>
+        </div>
       </div>
     </section>
   );
