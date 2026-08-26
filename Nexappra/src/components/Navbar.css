@@ -35,18 +35,29 @@
 .navbar__logo {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-xl);
+  gap: var(--space-3);
   font-weight: 800;
-  letter-spacing: -0.02em;
   text-decoration: none;
   z-index: 2;
 }
 
-.navbar__logo-icon {
-  color: var(--color-primary);
+.navbar__logo-img {
+  height: 40px; 
+  width: auto;
+  object-fit: contain;
+}
+
+.navbar__logo-text-group {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+
+.navbar__logo-title {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .navbar__logo-nex {
@@ -55,6 +66,15 @@
 
 .navbar__logo-appra {
   color: var(--color-text);
+}
+
+.navbar__logo-subtitle {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
 }
 
 /* ---------- Desktop nav links ---------- */

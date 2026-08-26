@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
+import logoImg from '../assets/NexAppra.png';
 
 const servicesLinks = [
   'Web Development',
@@ -40,10 +41,18 @@ export default function Footer() {
         <div className="footer__grid">
           {/* ---------- Column 1 — Brand ---------- */}
           <div className="footer__brand">
-            <Link to="/" className="footer__logo" id="footer-logo">
-              <span className="footer__logo-nex">Nex</span>
-              <span className="footer__logo-appra">Appra</span>
-            </Link>
+            <Link to="/" className="footer__logo" id="footer-logo" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+            <img src={logoImg} alt="NexAppra Logo" style={{ height: '34px', width: 'auto', objectFit: 'contain' }} />
+            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.15' }}>
+              <span style={{ fontSize: '1.2rem', fontWeight: '800', letterSpacing: '-0.02em' }}>
+                <span className="footer__logo-nex">Nex</span>
+                <span className="footer__logo-appra">Appra</span>
+              </span>
+              <span style={{ fontSize: '9px', fontWeight: '600', color: 'var(--color-text-secondary)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                Software House
+              </span>
+            </div>
+          </Link>
             <p className="footer__tagline">Build. Innovate. Scale.</p>
             <p className="footer__desc">
               We craft premium digital products that drive growth and innovation.

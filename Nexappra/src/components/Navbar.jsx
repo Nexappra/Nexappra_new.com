@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.css';
+import logoImg from '../assets/NexAppra.png';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
@@ -42,18 +43,16 @@ export default function Navbar() {
   return (
     <nav className={`navbar${scrolled ? ' scrolled' : ''}`} id="navbar">
       <div className="container navbar__inner">
-        {/* Logo */}
+     {/* Logo */}
         <Link to="/" className="navbar__logo" id="nav-logo" onClick={() => setMenuOpen(false)}>
-          <span className="navbar__logo-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="16 18 22 12 16 6" />
-              <polyline points="8 6 2 12 8 18" />
-            </svg>
-          </span>
-          <span>
-            <span className="navbar__logo-nex">Nex</span>
-            <span className="navbar__logo-appra">Appra</span>
-          </span>
+          <img src={logoImg} alt="NexAppra Logo" className="navbar__logo-img" />
+          <div className="navbar__logo-text-group">
+            <span className="navbar__logo-title">
+              <span className="navbar__logo-nex">Nex</span>
+              <span className="navbar__logo-appra">Appra</span>
+            </span>
+            <span className="navbar__logo-subtitle">Software House</span>
+          </div>
         </Link>
 
         {/* Desktop links */}

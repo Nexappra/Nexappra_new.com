@@ -106,6 +106,26 @@ const TEAM_CATEGORIES = [
       },
     ],
   },
+   {
+    category: "HR Team",
+    members: [
+      {
+        name: "Maleeha Mubeen",
+        role: "HR Executive",
+        gender: "female",
+        type: "Full Time",
+        linkedin: "https://www.linkedin.com/in/maleeha-mubeen-9a4688408",
+      },
+      {
+        name: "Ayesha Ahmad",
+        role: "HR Internee",
+        gender: "female",
+        type: "Internship",
+        linkedin: "https://www.linkedin.com/in/ayesha-ahmad-6b757b3b5/",
+        github: "https://github.com/ayeshaahmad1609",
+      },
+    ],
+  },
   {
     category: "Android Developer",
     members: [
@@ -145,6 +165,35 @@ const TEAM_CATEGORIES = [
         type: "Internship",
         linkedin: "https://www.linkedin.com/in/muhammad-umair-9523ba347",
         github: "https://github.com/umaircoder123",
+      },
+    ],
+  },
+  {
+    category: "Game Developer",
+    members: [
+      {
+        name: "Muhammad Fakhar",
+        role: "Android Game Developer",
+        gender: "male",
+        type: "Full Time",
+        linkedin: "https://www.linkedin.com/in/muhammad-fakhar-829b3237b",
+      },
+      {
+        name: "Ali Hassan",
+        role: "Android Game Developer",
+        gender: "male",
+        type: "Full Time",
+        linkedin: "https://www.linkedin.com/in/ali-hassan-6a84b6231",
+        github: "https://github.com/Ali143624",
+        photoPosition: "40% 25%",
+      },
+      {
+        name: "Tashfeen Liaquat",
+        role: "Android Game Developer",
+        gender: "male",
+        type: "Full Time",
+        linkedin: "https://smartlnks.com/JgOB",
+        github: "https://github.com/mtashfeen-git",
       },
     ],
   },
@@ -198,66 +247,17 @@ const TEAM_CATEGORIES = [
     ],
   },
   {
-    category: "Game Developer",
-    members: [
-      {
-        name: "Muhammad Fakhar",
-        role: "Android Game Developer",
-        gender: "male",
-        type: "Full Time",
-        linkedin: "https://www.linkedin.com/in/muhammad-fakhar-829b3237b",
-      },
-      {
-        name: "Ali Hassan",
-        role: "Android Game Developer",
-        gender: "male",
-        type: "Full Time",
-        linkedin: "https://www.linkedin.com/in/ali-hassan-6a84b6231",
-        github: "https://github.com/Ali143624",
-        photoPosition: "40% 25%",
-      },
-      {
-        name: "Tashfeen Liaquat",
-        role: "Android Game Developer",
-        gender: "male",
-        type: "Full Time",
-        linkedin: "https://smartlnks.com/JgOB",
-        github: "https://github.com/mtashfeen-git",
-      },
-    ],
-  },
-  {
     category: "UI/UX Designer",
     members: [
-      {
-        name: "Alishba Usman",
-        role: "UI/UX Designer Intern",
+     {
+        name: "Aleeza Ahmad",
+        role: "UI/UX Designer",
         gender: "female",
-        linkedin: "https://www.linkedin.com/in/alishba-usman-71aa65411",
-        portfolio: "https://www.behance.net/alishbausman234",
-      },
+        linkedin: "https://www.linkedin.com/in/aleeza-ahmed-5286a42a1?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      }
     ],
   },
-  {
-    category: "HR Team",
-    members: [
-      {
-        name: "Ayesha Ahmad",
-        role: "HR Internee",
-        gender: "female",
-        type: "Internship",
-        linkedin: "https://www.linkedin.com/in/ayesha-ahmad-6b757b3b5/",
-        github: "https://github.com/ayeshaahmad1609",
-      },
-      {
-        name: "Maleeha Mubeen",
-        role: "HR Executive",
-        gender: "female",
-        type: "Full Time",
-        linkedin: "https://www.linkedin.com/in/maleeha-mubeen-9a4688408",
-      },
-    ],
-  },
+ 
   {
     category: "Campus Ambassadors",
     members: [
