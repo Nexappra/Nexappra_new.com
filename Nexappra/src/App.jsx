@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CustomCursor from './components/CustomCursor';
 import ApplicationForm from "./components/Applicationform";
+import ScrollToTop from './ScrollToTop';
 
 // Pages
 import Home from './pages/Home';
@@ -29,6 +30,7 @@ function App() {
           <Route path="/apply" element={<ApplicationForm />} />
         </Routes>
       </main>
+      <ScrollToTop />
       <Chatbot />
       <Footer />
     </Router>

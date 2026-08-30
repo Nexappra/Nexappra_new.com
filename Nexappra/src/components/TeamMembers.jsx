@@ -67,6 +67,19 @@ const AVATAR_MAP = {
   "Muhammad Umair": "/team/muhammad-umair.jpg",
   "Syeda Ghania Shahzad": "/team/syeda-ghania-shahzad.jpg",
   "Tashfeen Liaquat": "/team/tashfeen-liaquat.jpg",
+  "Taimoor Ahmad": "/team/taimoor-ahmad.png",
+  "Zaid Raza": "/team/zaid-raza.jpg",
+  "Ameer Hamza": "/team/ameer-hamza.png",
+  "Jibraan Khan": "/team/jibraan-khan.jpg",
+  "Muniba Shami": "/team/muniba-shami.jpg",
+  "Rimsha": "/team/rimsha.jpg",
+  "Tariful Islam Tarif": "/team/tariful-islam.jpg",
+  "Muhammad Al Yasa Dawood": "/team/m-al-yasa-dawood.jpeg",
+  "Muhammad Usman Khan": "/team/m-usman-khan.jpeg",
+  "Abdul Wahab": "/team/abdul-wahab.png",
+  "Kashaf Noor": "/team/kashaf-noor.jpg",
+  "Moiz Ur Rehman": "/team/moiz-ur-rehman.jpg",
+
 };
 
 function getAvatarUrl(name) {
@@ -103,6 +116,13 @@ const TEAM_CATEGORIES = [
         type: "Leadership",
         linkedin: "https://www.linkedin.com/in/muhammad-usman-khan-9ba575381",
         github: "https://github.com/codewithuusman",
+      },
+      {
+        name: "Abdul Wahab",
+        role: "Head of Software, Sales & Marketing Department",
+        gender: "male",
+        type: "Leadership",
+        linkedin: "",
       },
     ],
   },
@@ -165,6 +185,13 @@ const TEAM_CATEGORIES = [
         type: "Internship",
         linkedin: "https://www.linkedin.com/in/muhammad-umair-9523ba347",
         github: "https://github.com/umaircoder123",
+      },
+      {
+        name: "Moiz Ur Rehman",
+        role: "Flutter Developer Intern",
+        gender: "male",
+        type: "Internship",
+        linkedin: "https://www.linkedin.com/in/moizrao/"
       },
     ],
   },
@@ -244,6 +271,14 @@ const TEAM_CATEGORIES = [
         linkedin: "https://www.linkedin.com/in/talha-younis-b082113a9",
         github: "https://github.com/talhayounis3006",
       },
+        {
+        name: "Saniah Malik",
+        role: "Frontend Developer Intern",
+        gender: "female",
+        type: "Internship",
+        linkedin: "https://www.linkedin.com/in/saniah-malik-5850953b5/",
+        github: "https://github.com/SaniahMalik",
+      },
     ],
   },
   {
@@ -254,7 +289,27 @@ const TEAM_CATEGORIES = [
         role: "UI/UX Designer",
         gender: "female",
         linkedin: "https://www.linkedin.com/in/aleeza-ahmed-5286a42a1?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+        github: "https://github.com/AleezaBhatti835"
       }
+    ],
+  },
+ {
+    category: "AI Engineer",
+    members: [
+      {
+        name: "Tariful Islam Tarif",
+        role: "AI Intern",
+        gender: "male",
+        type: "Internship",
+        linkedin: "https://www.linkedin.com/in/tariful-islam-tarif-1a4338324/",
+      },
+      {
+        name: "Kashaf Noor",
+        role: "AI Intern",
+        gender: "female",
+        type: "Internship",
+        linkedin: "https://www.linkedin.com/in/kashaf-noor-6678bb304?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+      },
     ],
   },
  
@@ -262,20 +317,46 @@ const TEAM_CATEGORIES = [
     category: "Campus Ambassadors",
     members: [
       {
-        name: "Omar Farooq",
-        role: "Campus Ambassador — FAST NUCES Lahore",
+        name: "Taimoor Ahmad",
+        role: "Campus Ambassador — FAST NUCES CFD",
         gender: "male",
         type: "Ambassador",
-        linkedin: "https://www.linkedin.com/in/omar-farooq-demo",
-        github: "https://github.com/omar-farooq-demo",
+        linkedin: "https://www.linkedin.com/in/taimoor-ahmad-343193324",
       },
       {
-        name: "Zara Siddiqui",
-        role: "Campus Ambassador — COMSATS Islamabad",
+        name: "Zaid Raza",
+        role: "Campus Ambassador — University of Mianwali",
+        gender: "male",
+        type: "Ambassador",
+        linkedin: "https://www.linkedin.com/in/zaid-raza-5935a6380",
+      },
+      {
+        name: "Ameer Hamza",
+        role: "Campus Ambassador — UET Lahore New Campus",
+        gender: "male",
+        type: "Ambassador",
+        linkedin: "https://www.linkedin.com/in/malik-ameerhamza",
+      },
+      {
+        name: "Jibraan Khan",
+        role: "Campus Ambassador — University of Mianwali",
+        gender: "male",
+        type: "Ambassador",
+        linkedin: "https://www.linkedin.com/in/jibran-khan-399053416",
+      },
+      {
+        name: "Rimsha",
+        role: "Campus Ambassador — COMSATS",
         gender: "female",
         type: "Ambassador",
-        linkedin: "https://www.linkedin.com/in/zara-siddiqui-demo",
-        github: "https://github.com/zara-siddiqui-demo",
+        linkedin: "https://www.linkedin.com/in/rimsha-ghulam-ali-85757b36b/",
+      },
+      {
+        name: "Muniba Shami",
+        role: "Campus Ambassador — UET Lahore",
+        gender: "female",
+        type: "Ambassador",
+        linkedin: "https://www.linkedin.com/in/muniba-shami-558705384",
       },
     ],
   },
