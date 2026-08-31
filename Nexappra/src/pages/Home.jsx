@@ -8,19 +8,28 @@ import Testimonials from '../components/Testimonials';
 import CTASection from '../components/CTASection';
 import Pricing from '../components/Pricing';
 import FAQ from '../components/FAQ';
+import SEO from '../components/SEO';
 
 export default function Home() {
   return (
-    <div className="page-transition">
-      <Hero />
-      <TrustBar />
-      <Stats />
-      <WhyChooseUs />
-      <CaseStudies />
-      <Testimonials />
-      <CTASection />
-      <Pricing />
-      <FAQ />
-    </div>
+    <>
+      <SEO
+        title="NexAppra Software House | Web, Mobile, AI & SaaS Development"
+        description="NexAppra is a software development company building modern web applications, mobile apps, AI solutions, SaaS products, and scalable digital experiences for startups and businesses."
+        canonical="https://nexappra.com/"
+      />
+
+      <div className="page-transition">
+        <Hero />
+        <TrustBar />
+        <Stats />
+        <WhyChooseUs />
+        <CaseStudies />
+        <Testimonials />
+        <CTASection />
+        <Pricing />
+        <FAQ />
+      </div>
+    </>
   );
 }
