@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { staggerReveal } from '../utils/animations';
 import './Pages.css';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const JOBS = [
   {
@@ -39,48 +40,110 @@ export default function Careers() {
 
   useEffect(() => {
     if (!containerRef.current) return;
+
     const cards = containerRef.current.querySelectorAll('.job-card');
-    staggerReveal(cards, { delay: 0.2, stagger: 0.1 });
+
+    staggerReveal(cards, {
+      delay: 0.2,
+      stagger: 0.1
+    });
   }, []);
 
   return (
-    
-<div className="page-transition careers-page" style={{ paddingTop: '120px', paddingBottom: '5rem', minHeight: '100vh' }}>
-      <div className="container" ref={containerRef}>
-        
-        {/* Intro */}
-        <div className="careers-intro" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 4rem' }}>
-          <span className="section-label">Join The Team</span>
-          <h1 className="section-title">Build the Future with Us</h1>
-          <p className="section-subtitle" style={{ margin: '1rem auto' }}>
-            We're a remote-first company offering competitive salaries, comprehensive health benefits, unlimited PTO, and the chance to work on projects that shape industries.
-          </p>
-        </div>
+    <>
+      <SEO
+        title="Careers at NexAppra | Join Our Software Team"
+        description="Explore career opportunities at NexAppra. Join our team of software developers, AI engineers, UI/UX designers, and technology professionals working on modern digital products."
+        canonical="https://nexappra.com/careers"
+      />
 
-        {/* Jobs List */}
-        <div className="jobs-list">
-          {JOBS.map((job, idx) => (
-            <div key={idx} className="job-card glass-card reveal">
-              <div className="job-info">
-                <h3 className="job-title">{job.title}</h3>
-                <div className="job-meta">
-                  <span className="job-badge">{job.type}</span>
-                  <span className="job-location">📍 {job.location}</span>
+      <div
+        className="page-transition careers-page"
+        style={{
+          paddingTop: '120px',
+          paddingBottom: '5rem',
+          minHeight: '100vh'
+        }}
+      >
+        <div className="container" ref={containerRef}>
+
+          {/* Intro */}
+          <div
+            className="careers-intro"
+            style={{
+              textAlign: 'center',
+              maxWidth: '800px',
+              margin: '0 auto 4rem'
+            }}
+          >
+            <span className="section-label">Join The Team</span>
+
+            <h1 className="section-title">
+              Build the Future with Us
+            </h1>
+
+            <p
+              className="section-subtitle"
+              style={{ margin: '1rem auto' }}
+            >
+             Join NexAppra and work alongside a passionate team of developers,
+  designers, and innovators. Build meaningful digital products,
+  grow your skills, and contribute to technology that creates
+  real-world impact.
+            </p>
+          </div>
+
+          {/* Jobs List */}
+          <div className="jobs-list">
+            {JOBS.map((job, idx) => (
+              <div
+                key={idx}
+                className="job-card glass-card reveal"
+              >
+                <div className="job-info">
+                  <h3 className="job-title">
+                    {job.title}
+                  </h3>
+
+                  <div className="job-meta">
+                    <span className="job-badge">
+                      {job.type}
+                    </span>
+
+                    <span className="job-location">
+                      📍 {job.location}
+                    </span>
+                  </div>
+
+                  <p
+                    className="job-desc"
+                    style={{ marginBottom: '8px' }}
+                  >
+                    {job.desc}
+                  </p>
+
+                  <div
+                    style={{
+                      fontSize: '0.875rem',
+                      color: 'var(--color-primary)',
+                      fontWeight: 600
+                    }}
+                  >
+                    Skills: {job.skills}
+                  </div>
                 </div>
-                <p className="job-desc" style={{ marginBottom: '8px' }}>{job.desc}</p>
-                <div style={{ fontSize: '0.875rem', color: 'var(--color-primary)', fontWeight: 600 }}>
-                  Skills: {job.skills}
-                </div>
+
+                <Link to="/apply">
+                  <button className="btn btn-primary job-apply-btn">
+                    Apply Now
+                  </button>
+                </Link>
               </div>
-              <Link to="/apply">
-              
-              <button className="btn btn-primary job-apply-btn">Apply Now</button>
-              </Link>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
+        </div>
       </div>
-    </div>
+    </>
   );
 }
