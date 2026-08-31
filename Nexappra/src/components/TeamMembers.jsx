@@ -79,6 +79,8 @@ const AVATAR_MAP = {
   "Abdul Wahab": "/team/abdul-wahab.png",
   "Kashaf Noor": "/team/kashaf-noor.jpg",
   "Moiz Ur Rehman": "/team/moiz-ur-rehman.jpg",
+  "Sami Ullah": "/team/sami-ullah.jpeg",
+  "Saniah Malik": "/team/saniah-malik.png",
 
 };
 
@@ -143,6 +145,18 @@ const TEAM_CATEGORIES = [
         type: "Internship",
         linkedin: "https://www.linkedin.com/in/ayesha-ahmad-6b757b3b5/",
         github: "https://github.com/ayeshaahmad1609",
+      },
+    ],
+  },
+  {
+    category: "Cyber Security",
+    members: [
+      {
+        name: "Sami Ullah",
+        role: "CISO (Chief Information Security Officer)",
+        gender: "male",
+        linkedin: "https://www.linkedin.com/in/sami-ullah-19ba71333/",
+        github: "https://github.com/sami-tor",
       },
     ],
   },
@@ -443,12 +457,13 @@ function MemberCard({ member }) {
 }
 
 function CategorySection({ category, members }) {
+  const isFounders = category === "Founders & Directors";
   return (
     <div className="member-category">
       <h3 className="member-category-title">
         <span className="text-gradient">{category}</span>
       </h3>
-      <div className="member-grid">
+      <div className={`member-grid ${isFounders ? "founders-grid" : ""}`}>
         {members.map((member) => (
           <MemberCard key={member.name} member={member} />
         ))}
