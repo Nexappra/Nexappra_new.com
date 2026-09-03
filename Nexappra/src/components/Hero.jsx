@@ -70,7 +70,7 @@ export default function Hero() {
           <button
             className="btn btn-outline btn-lg"
             id="hero-cta-consult"
-            onClick={goToContact}
+            onClick={() => window.open('https://calendly.com/hr-nexappra/30min', '_blank')}
             type="button"
           >
             30 Min Free Consultation

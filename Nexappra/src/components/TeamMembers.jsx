@@ -104,7 +104,7 @@ const TEAM_CATEGORIES = [
     members: [
       {
         name: "Muhammad Al Yasa Dawood",
-        role: "Co-Founder & Director",
+        role: "Co-Founder",
         gender: "male",
         type: "Leadership",
         linkedin:
@@ -113,7 +113,7 @@ const TEAM_CATEGORIES = [
       },
       {
         name: "Muhammad Usman Khan",
-        role: "Co-Founder",
+        role: "Director",
         gender: "male",
         type: "Leadership",
         linkedin: "https://www.linkedin.com/in/muhammad-usman-khan-9ba575381",

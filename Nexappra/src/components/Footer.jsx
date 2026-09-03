@@ -125,6 +125,11 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a href="mailto:ceo@nexappra.com" className="footer__link" id="footer-ceo-email" title="For Complaints & Official Queries">
+                  ceo@nexappra.com
+                </a>
+              </li>
+              <li>
                 <a href="https://nexappra.com" className="footer__link" id="footer-website">
                   nexappra.com
                 </a>
