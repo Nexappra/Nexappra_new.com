@@ -15,8 +15,8 @@
 /* ---------- Grid ---------- */
 .case-studies__grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); 
-  gap: var(--space-4);
+  grid-template-columns: 1fr; 
+  gap: var(--space-6);
   align-items: stretch;
 }
 
@@ -24,7 +24,8 @@
 .case-studies__card {
   display: flex;
   flex-direction: column;
-  height: 900px;
+  height: 100%;
+  min-height: 520px;
   border-radius: var(--radius-xl);
   overflow: hidden;
   background: var(--color-bg-secondary);
@@ -232,14 +233,19 @@
 
 /* ---------- Responsive ---------- */
 
-/* Tablet and Small Screens */
-@media (max-width: 1200px) {
+/* Default (Mobile): 1 column */
+.case-studies__grid {
+  grid-template-columns: 1fr;
+}
+
+/* Tablet (768px and above): 2 columns */
+@media (min-width: 768px) and (max-width: 1200px) {
   .case-studies__grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Large Desktop: 5 columns in a single line */
+/* Large Desktop (1201px and above): 5 columns in a single line */
 @media (min-width: 1201px) {
   .case-studies__grid {
     grid-template-columns: repeat(5, 1fr);

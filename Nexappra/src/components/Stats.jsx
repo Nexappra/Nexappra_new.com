@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import './Stats.css';
 
 const STATS_DATA = [
-  { label: 'Projects Completed', value: 25, suffix: '+' },
+  { label: 'Projects Completed', value: 27, suffix: '+' },
   { label: 'Client Satisfaction', value: 98, suffix: '%' },
   { label: 'Global Partners', value: 15, suffix: '+' },
-  { label: 'Team Members', value: 12, suffix: '+' },
+  { label: 'Team Members', value: 20, suffix: '+' },
 ];
 
 function AnimatedCounter({ endValue, suffix }) {

@@ -10,6 +10,7 @@ import Pricing from '../components/Pricing';
 import FAQ from '../components/FAQ';
 import SEO from '../components/SEO';
 
+
 export default function Home() {
   return (
     <>
@@ -28,6 +29,7 @@ export default function Home() {
         <Testimonials />
         <CTASection />
         <Pricing />
+        
         <FAQ />
       </div>
     </>
