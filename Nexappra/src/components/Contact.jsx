@@ -4,6 +4,8 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './Contact.css';
 
+const WEB3FORMS_ACCESS_KEY = '70e30a14-6be2-49e0-9be1-7faa0e90a931';
+
 const PROJECT_TYPES = [
   { id: 'web-app', title: 'Web Application', desc: 'Custom web platforms & portals', icon: '💻' },
   { id: 'mobile-app', title: 'Mobile App', desc: 'iOS & Android applications', icon: '📱' },
@@ -36,7 +38,6 @@ const initialForm = {
   budget: '',
   message: '',
   deadline: '',
-  file: null,
   name: '',
   email: '',
   phone: '',
@@ -53,6 +54,11 @@ export default function Contact() {
   const [countries, setCountries] = useState([]);
   const [loadingCountries, setLoadingCountries] = useState(false);
   const [apiStatus, setApiStatus] = useState('');
+
+  // ✉️ Submission states
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  const [submitError, setSubmitError] = useState('');
 
   const currentRegion = form.region;
   const currentCountry = form.country;
@@ -185,11 +191,62 @@ export default function Contact() {
   const nextStep = () => setStep((p) => Math.min(p + 1, totalSteps));
   const prevStep = () => setStep((p) => Math.max(p - 1, 1));
 
-  const handleSubmit = (e) => {
+  // Look up friendly labels for the email body instead of raw ids
+  const getProjectTypeLabel = () =>
+    PROJECT_TYPES.find((p) => p.id === form.projectType)?.title || form.projectType || 'Not specified';
+
+  const getBudgetLabel = () => {
+    const list = form.region ? REGIONAL_BUDGETS[form.region] : [];
+    return list?.find((b) => b.id === form.budget)?.title || form.budget || 'Not specified';
+  };
+
+  const getCountryLabel = () =>
+    countries.find((c) => c.code === form.country)?.name || form.country || 'Not specified';
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Thank you! We received your project requirements and will get back to you soon.');
-    setForm(initialForm);
-    setStep(1);
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    setSubmitError('');
+
+    const payload = {
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: `New Project Inquiry from ${form.name}`,
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      project_type: getProjectTypeLabel(),
+      region: form.region === 'asia' ? 'Asia / Africa' : 'Europe / North America / Other',
+      country: getCountryLabel(),
+      budget: getBudgetLabel(),
+      deadline: form.deadline || 'Not specified',
+      how_heard: form.howHeard || 'Not specified',
+      message: form.message || 'No additional details provided.',
+    };
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        setSubmitStatus('success');
+        setForm(initialForm);
+        setStep(1);
+      } else {
+        throw new Error(result.message || 'Submission failed');
+      }
+    } catch (err) {
+      console.error('Web3Forms send failed:', err);
+      setSubmitStatus('error');
+      setSubmitError('Something went wrong sending your request. Please try again or email us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const availableBudgets = currentRegion && REGIONAL_BUDGETS ? REGIONAL_BUDGETS[currentRegion] : [];
@@ -372,37 +429,6 @@ export default function Contact() {
                   </div>
                 </div>
               </div>
-
-              <div className="contact__field contact__field--compact">
-                <label htmlFor="project-files" className="contact__label">
-                  Attach Project References
-                </label>
-                <div className="input-icon-wrapper">
-                  <input
-                    type="file"
-                    id="project-files"
-                    name="file"
-                    accept=".pdf,.doc,.docx,.png,.jpg,.zip"
-                    className="contact__input contact__input--compact contact__file-input"
-                    onChange={(e) => {
-                      if (e.target.files) {
-                        handleChange({
-                          target: {
-                            name: 'file',
-                            value: e.target.files[0]
-                          }
-                        });
-                      }
-                    }}
-                  />
-                  <div className="input-icon">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
-                    </svg>
-                  </div>
-                </div>
-                <span className="file-hint">Allowed formats: PDF, DOC, PNG, JPG, ZIP</span>
-              </div>
             </div>
           </div>
         );
@@ -472,6 +498,17 @@ export default function Contact() {
                 </select>
               </div>
             </div>
+
+            {submitStatus === 'success' && (
+              <div className="form-status form-status--success" role="status">
+                ✅ Thank you! We received your project requirements and will get back to you within 24 hours.
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="form-status form-status--error" role="alert">
+                ⚠️ {submitError}
+              </div>
+            )}
           </div>
         );
 
@@ -541,7 +578,7 @@ export default function Contact() {
 
               <div className="onboarding__actions">
                 {step > 1 ? (
-                  <button type="button" className="btn btn-prev" onClick={prevStep}>
+                  <button type="button" className="btn btn-prev" onClick={prevStep} disabled={isSubmitting}>
                     ← Back
                   </button>
                 ) : <div />}
@@ -559,8 +596,12 @@ export default function Contact() {
                     Next Step →
                   </button>
                 ) : (
-                  <button type="submit" className="btn btn-primary btn-next" disabled={!form.name || !form.email}>
-                    Submit Request ✓
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-next"
+                    disabled={!form.name || !form.email || isSubmitting}
+                  >
+                    {isSubmitting ? 'Sending...' : 'Submit Request ✓'}
                   </button>
                 )}
               </div>
