@@ -9,7 +9,7 @@ import CTASection from '../components/CTASection';
 import Pricing from '../components/Pricing';
 import FAQ from '../components/FAQ';
 import SEO from '../components/SEO';
-
+import CertificateVerify from '../components/CertificateVerify';
 
 export default function Home() {
   return (
@@ -26,6 +26,7 @@ export default function Home() {
         <Stats />
         <WhyChooseUs />
         <CaseStudies />
+        <CertificateVerify />
         <Testimonials />
         <CTASection />
         <Pricing />
