@@ -226,20 +226,41 @@ input, textarea {
   background-clip: text;
 }
 
-/* ---------- Glass Card ---------- */
+/* ---------- ULTIMATE UNIVERSAL CARD HOVER & ACTIVE EFFECT ---------- */
+[class*="card"], 
 .glass-card {
-  background: var(--color-bg-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  transition: all var(--transition-base);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
 
+[class*="card"]:hover, 
+[class*="card"].selected,
+[class*="card"].active,
 .glass-card:hover {
-  border-color: rgba(74, 222, 128, 0.3);
-  box-shadow: var(--shadow-glow);
-  transform: translateY(-4px);
+  border-color: #a3ff00 !important;
+  transform: translateY(-8px) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 
+              0 0 30px rgba(163, 255, 0, 0.4), 
+              inset 0 0 15px rgba(163, 255, 0, 0.15) !important;
+}
+
+/* Icons & Images inside cards zoom / glow on hover */
+[class*="card"]:hover img,
+[class*="card"].selected img,
+[class*="card"]:hover svg,
+[class*="card"].selected svg {
+  filter: drop-shadow(0 0 15px rgba(163, 255, 0, 0.8)) !important;
+  transform: scale(1.08) !important;
+  transition: transform 0.3s ease !important;
+}
+
+/* Action or Arrow buttons inside cards */
+[class*="card"]:hover [class*="arrow"],
+[class*="card"]:hover [class*="btn"],
+[class*="card"].selected [class*="arrow"],
+[class*="card"].selected [class*="btn"] {
+  background: #a3ff00 !important;
+  color: #0a0a0f !important;
+  box-shadow: 0 0 20px rgba(163, 255, 0, 0.8) !important;
 }
 
 /* ---------- Buttons ---------- */

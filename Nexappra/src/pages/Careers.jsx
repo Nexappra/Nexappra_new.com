@@ -33,6 +33,7 @@ const JOBS = [
     desc: 'Help us integrate LLMs and predictive models into our core SaaS offerings. Develop custom agents.',
     skills: 'Python, PyTorch, OpenAI API, LangChain'
   }
+  
 ];
 
 export default function Careers() {

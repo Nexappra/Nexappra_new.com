@@ -4,16 +4,24 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './Contact.css';
 
+import webIcon from '../assets/icons/Web Application Development.png';
+import mobileIcon from '../assets/icons/Mobile App Solutions.png';
+import aiIcon from '../assets/icons/AI & Machine Learning.png';
+import saasIcon from '../assets/icons/Cloud & SaaS Architecture.png';
+import uiuxIcon from '../assets/icons/UIUX Design.png';
+import gameIcon from '../assets/icons/Game Development (AndroidMobile Games).png';
+import securityIcon from '../assets/icons/Cyber Security Solution.png';
+
 const WEB3FORMS_ACCESS_KEY = '70e30a14-6be2-49e0-9be1-7faa0e90a931';
 
 const PROJECT_TYPES = [
-  { id: 'web-app', title: 'Web Application', desc: 'Custom web platforms & portals', icon: '💻' },
-  { id: 'mobile-app', title: 'Mobile App', desc: 'iOS & Android applications', icon: '📱' },
-  { id: 'ai-solution', title: 'AI Solution', desc: 'Machine learning & AI integrations', icon: '🤖' },
-  { id: 'saas', title: 'SaaS Product', desc: 'Scalable software as a service', icon: '☁️' },
-  { id: 'ui-ux', title: 'UI/UX Design', desc: 'User-centric wireframes, prototypes & interfaces', icon: '🎨' },
-  { id: 'game-dev', title: 'Game Development', desc: 'Immersive 2D/3D mobile & cross-platform games', icon: '🎮' },
-  { id: 'cyber-security', title: 'Cyber Security', desc: 'Robust vulnerability testing & threat protection', icon: '🛡️' },
+  { id: 'web-app', title: 'Web Application', desc: 'Custom web platforms & portals', icon: webIcon },
+  { id: 'mobile-app', title: 'Mobile App', desc: 'iOS & Android applications', icon: mobileIcon },
+  { id: 'ai-solution', title: 'AI Solution', desc: 'Machine learning & AI integrations', icon: aiIcon },
+  { id: 'saas', title: 'SaaS Product', desc: 'Scalable software as a service', icon: saasIcon },
+  { id: 'ui-ux', title: 'UI/UX Design', desc: 'User-centric wireframes, prototypes & interfaces', icon: uiuxIcon },
+  { id: 'game-dev', title: 'Game Development', desc: 'Immersive 2D/3D mobile & cross-platform games', icon: gameIcon },
+  { id: 'cyber-security', title: 'Cyber Security', desc: 'Robust vulnerability testing & threat protection', icon: securityIcon },
 ];
 
 const REGIONAL_BUDGETS = {
@@ -265,9 +273,11 @@ export default function Contact() {
                   className={`option-card ${form.projectType === pt.id ? 'selected' : ''}`}
                   onClick={() => handleSelect('projectType', pt.id)}
                 >
-                  <span className="option-icon" aria-hidden="true">{pt.icon}</span>
-                  <h4 className="option-title">{pt.title}</h4>
-                  <p className="option-desc">{pt.desc}</p>
+                 <div className="option-icon" aria-hidden="true">
+      <img src={pt.icon} alt={pt.title} />
+    </div>
+    <h4 className="option-title">{pt.title}</h4>
+    <p className="option-desc">{pt.desc}</p>
                 </div>
               ))}
             </div>
