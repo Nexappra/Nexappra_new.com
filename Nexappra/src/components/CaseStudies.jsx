@@ -73,6 +73,24 @@ const projects = [
   accent: '#34d399',
   playStoreUrl: 'https://play.google.com/store/apps/details?id=com.quranium.quran.prayertimes',
 },
+{
+  id: 'project-step-tracker',
+  title: 'Step Tracker & Fitness Rewards App',
+  category: 'Health & Fitness App',
+  video: '/videos/step-tracker-app.mp4',
+  features: [
+    'Step Tracking & Hardware: Directly reads physical steps, distance, and calories via Android’s SENSOR_SERVICE and runs a background polling loop.',
+    'Gamification & Economy: Awards 1 virtual coin per 100 steps, updates 7-day rolling league tiers, manages challenges, and syncs monthly leaderboards.',
+    'GPS Workout & Notifications: Uses an Android Foreground Service for outdoor GPS tracking and sends alerts for goals, daily routines, inactivity, and challenges.',
+    'Cloud Sync: Securely syncs step history, biometrics, coins, and profile states with Firebase Authentication and Firestore.',
+    'Daily Workflow & Onboarding: Authenticates users, restores cloud data, requests permissions, and sets a baseline step count during initialization.',
+    'Midnight Rollover: Automatically detects date changes to archive yesterday’s history, lock in weekly data, and reset daily metrics to zero.',
+  ],
+  tags: ['Android', 'Kotlin', 'Firebase', 'GPS'],
+  gradient: 'linear-gradient(135deg, #1a2e1a 0%, #16401e 50%, #0f3a28 100%)',
+  accent: '#4ade80',
+  whatsappUrl: 'https://whatsapp.com/channel/0029VbDcoWsHAdNOPJlvLE1C',
+},
 ];
 
 export default function CaseStudies() {
@@ -92,80 +110,121 @@ export default function CaseStudies() {
         </header>
 
         <div className="case-studies__grid">
-          {projects.map((project, index) => (
-            <a
-             key={project.id}
-             href={project.playStoreUrl|| project.webUrl}
-             target="_blank"
-             rel="noopener noreferrer"
-             style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
-           >
-            <article
-              key={project.id}
-              id={project.id}
-              className={`case-studies__card reveal delay-${index + 1}`}
-            >
-              {/* Banner */}
-              <div
-                className="case-studies__banner"
-                style={{ background: project.gradient }}
-              >
-                {project.image ? (
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="case-studies__banner-img"
-                  />
-                ) : (
+          {projects.map((project, index) => {
+            const externalUrl = project.playStoreUrl || project.webUrl;
+            const Wrapper = externalUrl ? 'a' : 'div';
+            const wrapperProps = externalUrl
+              ? {
+                  href: externalUrl,
+                  target: '_blank',
+                  rel: 'noopener noreferrer',
+                  style: { textDecoration: 'none', color: 'inherit', display: 'block' },
+                }
+              : { style: { display: 'block' } };
+
+            return (
+              <Wrapper key={project.id} {...wrapperProps}>
+                <article
+                  id={project.id}
+                  className={`case-studies__card reveal delay-${index + 1}`}
+                >
+                  {/* Banner */}
                   <div
-                    className="case-studies__banner-art"
-                    style={{ '--art-accent': project.accent }}
+                    className="case-studies__banner"
+                    style={{ background: project.gradient }}
                   >
-                    <div className="case-studies__art-circle case-studies__art-circle--lg"></div>
-                    <div className="case-studies__art-circle case-studies__art-circle--sm"></div>
-                    <div className="case-studies__art-line"></div>
+                    {project.video ? (
+                      <video
+                        className="case-studies__banner-video"
+                        src={project.video}
+                        controls
+                        playsInline
+                        preload="metadata"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    ) : project.image ? (
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="case-studies__banner-img"
+                      />
+                    ) : (
+                      <div
+                        className="case-studies__banner-art"
+                        style={{ '--art-accent': project.accent }}
+                      >
+                        <div className="case-studies__art-circle case-studies__art-circle--lg"></div>
+                        <div className="case-studies__art-circle case-studies__art-circle--sm"></div>
+                        <div className="case-studies__art-line"></div>
+                      </div>
+                    )}
+                    <span className="case-studies__badge">{project.category}</span>
                   </div>
-                )}
-                <span className="case-studies__badge">{project.category}</span>
-              </div>
 
-              {/* Body */}
-              <div className="case-studies__body">
-                <h3 className="case-studies__title">{project.title}</h3>
+                  {/* Body */}
+                  <div className="case-studies__body">
+                    <h3 className="case-studies__title">{project.title}</h3>
 
-                <ul className="case-studies__details">
-                  <li className="case-studies__detail">
-                    <span className="case-studies__detail-icon case-studies__detail-icon--problem" aria-label="Problem">✕</span>
-                    <div>
-                      <span className="case-studies__detail-label">Problem</span>
-                      <p className="case-studies__detail-text">{project.problem}</p>
-                    </div>
-                  </li>
-                  <li className="case-studies__detail">
-                    <span className="case-studies__detail-icon case-studies__detail-icon--solution" aria-label="Solution">✓</span>
-                    <div>
-                      <span className="case-studies__detail-label">Solution</span>
-                      <p className="case-studies__detail-text">{project.solution}</p>
-                    </div>
-                  </li>
-                  <li className="case-studies__detail">
-                    <span className="case-studies__detail-icon case-studies__detail-icon--result" aria-label="Result">↑</span>
-                    <div>
-                      <span className="case-studies__detail-label">Result</span>
-                      <p className="case-studies__detail-text">{project.result}</p>
-                    </div>
-                  </li>
-                </ul>
+                    {project.features ? (
+                      <ul className="case-studies__features">
+                        {project.features.map((feat, i) => (
+                          <li key={i} className="case-studies__feature-item">
+                            {feat}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <ul className="case-studies__details">
+                        <li className="case-studies__detail">
+                          <span className="case-studies__detail-icon case-studies__detail-icon--problem" aria-label="Problem">✕</span>
+                          <div>
+                            <span className="case-studies__detail-label">Problem</span>
+                            <p className="case-studies__detail-text">{project.problem}</p>
+                          </div>
+                        </li>
+                        <li className="case-studies__detail">
+                          <span className="case-studies__detail-icon case-studies__detail-icon--solution" aria-label="Solution">✓</span>
+                          <div>
+                            <span className="case-studies__detail-label">Solution</span>
+                            <p className="case-studies__detail-text">{project.solution}</p>
+                          </div>
+                        </li>
+                        <li className="case-studies__detail">
+                          <span className="case-studies__detail-icon case-studies__detail-icon--result" aria-label="Result">↑</span>
+                          <div>
+                            <span className="case-studies__detail-label">Result</span>
+                            <p className="case-studies__detail-text">{project.result}</p>
+                          </div>
+                        </li>
+                      </ul>
+                    )}
 
-                <div className="case-studies__tags">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="case-studies__tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </article>
-            </a>
-          ))}
+                    <div className="case-studies__tags">
+                      {project.tags.map((tag) => (
+                        <span key={tag} className="case-studies__tag">{tag}</span>
+                      ))}
+                    </div>
+
+                    {project.whatsappUrl && (
+                      <a
+                        href={project.whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="case-studies__whatsapp-btn"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4 0-.1-.2-.2-.5-.3z" />
+                          <path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3C8.4 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.3c-1.7 0-3.2-.4-4.6-1.2l-.3-.2-3.1.8.8-3-.2-.3C3.9 14.9 3.5 13.5 3.5 12c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5-3.8 8.3-8.5 8.3z" />
+                        </svg>
+                        Join WhatsApp Channel
+                      </a>
+                    )}
+                  </div>
+                </article>
+              </Wrapper>
+            );
+          })}
         </div>
       </div>
     </section>
