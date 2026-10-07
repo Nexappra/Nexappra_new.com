@@ -81,7 +81,14 @@
   transform: scale(1.05);
 }
 
-/* Banner video */
+/* Banner wrapper for video projects — matches the video's own 16:9 ratio so
+   nothing gets cropped or letterboxed */
+.case-studies__banner--video {
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+/* Banner video — fills its correctly-sized frame cleanly */
 .case-studies__banner-video {
   position: absolute;
   inset: 0;
@@ -217,48 +224,6 @@
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
   line-height: 1.6;
-}
-
-/* ---------- Feature list caption (used instead of problem/solution/result) ---------- */
-.case-studies__features {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-6);
-  padding-left: var(--space-5);
-  list-style: disc;
-}
-
-.case-studies__feature-item {
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-}
-
-.case-studies__feature-item::marker {
-  color: var(--color-primary);
-}
-
-/* ---------- WhatsApp channel button ---------- */
-.case-studies__whatsapp-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  margin-top: var(--space-5);
-  padding: var(--space-3) var(--space-5);
-  border-radius: var(--radius-full);
-  background: #25d366;
-  color: #06120a;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  text-decoration: none;
-  transition: background var(--transition-base), transform var(--transition-base);
-}
-
-.case-studies__whatsapp-btn:hover {
-  background: #1ebe5b;
-  transform: translateY(-2px);
 }
 
 /* ---------- Tags ---------- */
